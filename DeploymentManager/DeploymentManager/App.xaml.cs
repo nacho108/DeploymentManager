@@ -13,5 +13,12 @@ namespace DeploymentManager
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            MainViewModel mainviewModel = new MainViewModel();
+            MainWindow mw = new MainWindow() { DataContext = mainviewModel };
+            mw.Show();
+        }
+
     }
 }
