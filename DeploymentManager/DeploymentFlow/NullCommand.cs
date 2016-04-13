@@ -1,4 +1,5 @@
-using System;
+
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DeploymentFlow
@@ -7,7 +8,7 @@ namespace DeploymentFlow
     {
         async public Task Execute()
         {
-            Console.WriteLine("Step executed.");
+            Debug.WriteLine("Step executed.");
             await Task.Delay(1);
         }
     }

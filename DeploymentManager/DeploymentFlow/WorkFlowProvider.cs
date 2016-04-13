@@ -32,6 +32,7 @@ namespace DeploymentFlow
 
         async public Task ExecuteCurrentStep()
         {
+            if (_workFlowFinished) return;
             await _currentStep.Execute();
             _currentStepindex++;
             if (_currentStepindex <= _flowSteps.Count - 1)
