@@ -38,6 +38,7 @@ namespace DeploymentFlow
             if (_currentStepindex <= _flowSteps.Count - 1)
             {
                 _currentStep = _flowSteps[_currentStepindex];
+                _flowSteps[_currentStepindex].IsCurrent = true;
             }
             else
             {

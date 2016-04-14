@@ -6,10 +6,17 @@ namespace DeploymentFlow
 {
     public class NullCommand : ICommand
     {
+        private readonly string _name;
+
+        public NullCommand(string name)
+        {
+            _name = name;
+        }
+
         async public Task Execute()
         {
-            Debug.WriteLine("Step executed.");
-            await Task.Delay(1);
+            Debug.WriteLine(string.Format("{0} executed.", _name));
+            await Task.Delay(1000);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace DeploymentFlow
     {
         public string Description { get; }
         public int Order { get; }
+        public bool IsCurrent { get; set; }
 
         private readonly ICommand _command;
 
@@ -20,9 +21,9 @@ namespace DeploymentFlow
             Order = order;
         }
 
-        public Task Execute()
+        async public Task Execute()
         {
-            return _command.Execute();
+            await _command.Execute();
         }
 
     }
