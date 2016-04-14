@@ -7,7 +7,7 @@ namespace DeploymentFlow
 {
     public interface IWorkFlowProvider
     {
-        IEnumerable<FlowStep> GetAllSteps();
+        IEnumerable<FlowStep> AllSteps { get; }
         FlowStep GetCurrentStep();
         Task ExecuteCurrentStep();
         bool WorkFlowFinished { get; } 

@@ -38,7 +38,7 @@ namespace DeploymentFlow.Tests
         {
 
             // act
-            var allSteps = _workFlowProvider.GetAllSteps();
+            var allSteps = _workFlowProvider.AllSteps;
             
             // assert
             allSteps.ShouldAllBeEquivalentTo(_stepList);

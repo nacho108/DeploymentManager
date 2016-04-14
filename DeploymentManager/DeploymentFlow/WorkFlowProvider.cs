@@ -16,14 +16,12 @@ namespace DeploymentFlow
             _flowSteps = new List<FlowStep>(flowSteps.OrderBy(o => o.Order).ToList());
             _currentStepindex = 0;
             _currentStep = _flowSteps[_currentStepindex];
+            _currentStep.IsCurrent = true;
         }
 
         public bool WorkFlowFinished => _workFlowFinished;
 
-        public IEnumerable<FlowStep> GetAllSteps()
-        {
-            return _flowSteps;
-        }
+        public IEnumerable<FlowStep> AllSteps => _flowSteps;
 
         public FlowStep GetCurrentStep()
         {

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using DeploymentFlow;
 
 namespace DeploymentManager
 {
@@ -15,7 +16,13 @@ namespace DeploymentManager
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainViewModel mainviewModel = new MainViewModel();
+            var stepList = new List<FlowStep>();
+            var step1 = new FlowStep(new NullCommand("FirstStep"), "First step", 0);
+            var step2 = new FlowStep(new NullCommand("SecondStep"), "Second step", 1);
+            stepList.Add(step1);
+            stepList.Add(step2);
+            var workFlowProvider = new WorkFlowProvider(stepList);
+            MainViewModel mainviewModel = new MainViewModel(workFlowProvider);
             MainWindow mw = new MainWindow() { DataContext = mainviewModel };
             mw.Show();
         }
