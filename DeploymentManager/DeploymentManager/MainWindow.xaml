@@ -6,7 +6,22 @@
         xmlns:local="clr-namespace:DeploymentManager"
         mc:Ignorable="d"
         Title="TrueView Deployment Manager" Height="350" Width="525">
-    <Grid>
-        
+    <Grid Name="General" Background="Black">
+        <ListBox  HorizontalAlignment="Left" Height="264" Margin="30,23,0,0" VerticalAlignment="Top"
+            Width="161" ItemsSource="{Binding Path=FlowProvider.AllSteps}" HorizontalContentAlignment="Stretch" Background="Black">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Description}" Background="{Binding StepBackgroundColor}" HorizontalAlignment="Left"/>
+                        <Button Grid.Column="1" x:Name="button" Command="{Binding ExecuteCommand}" Background="{Binding StepBackgroundColor}" Content="Execute" HorizontalAlignment="Right"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

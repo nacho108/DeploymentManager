@@ -18,8 +18,8 @@ namespace DeploymentFlow.Tests
         public void Init()
         {
             _stepList = new List<FlowStep>();
-            _step1 = new FlowStep(new NullCommand(), "First step", 0);
-            _step2 = new FlowStep(new NullCommand(), "Second step", 1);
+            _step1 = new FlowStep(new NullCommand("FirstStep"), "First step", 0);
+            _step2 = new FlowStep(new NullCommand("SecondStep"), "Second step", 1);
             _stepList.Add(_step1);
             _stepList.Add(_step2);
             _workFlowProvider = new WorkFlowProvider(_stepList);
@@ -38,7 +38,7 @@ namespace DeploymentFlow.Tests
         {
 
             // act
-            var allSteps = _workFlowProvider.GetAllSteps();
+            var allSteps = _workFlowProvider.AllSteps;
             
             // assert
             allSteps.ShouldAllBeEquivalentTo(_stepList);
