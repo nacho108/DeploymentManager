@@ -12,15 +12,30 @@ namespace DeploymentFlow
         public string State
         {
             get { return _state; }
-            private set { _state = value; }
+            private set
+            {
+                if (_state == value) return;
+                _state = value;
+                OnPropertyChanged();
+            }
         }
 
-        public string OutputResults { get; private set; }
+        public string OutputResults
+        {
+            get { return _outputResults; }
+            private set
+            {
+                if (_outputResults == value) return;
+                _outputResults = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int Order { get; }
 
         private readonly ICommand _command;
         private string _state;
+        private string _outputResults;
 
         public FlowStep(ICommand command, string description, int order)
         {
@@ -36,8 +51,8 @@ namespace DeploymentFlow
         {
             State = "Running...";
             var result=await _command.Execute();
-            State = "Done.";
             OutputResults = result;
+            State = "Done.";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
