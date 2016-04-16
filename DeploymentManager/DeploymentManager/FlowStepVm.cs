@@ -1,16 +1,18 @@
-﻿using System.Windows.Media;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Media;
 using DeploymentFlow;
+using DeploymentManager.Annotations;
 
 namespace DeploymentManager
 {
-    public class FlowStepVm
+    public class FlowStepVm 
     {
         private readonly FlowStep _flowStep;
 
         public FlowStepVm(FlowStep flowStep)
         {
             _flowStep = flowStep;
-            ExecuteCommand = new RelayCommand(async o => { await _flowStep.Execute(); }, o => _flowStep.IsCurrent);
         }
 
         public Brush StepBackgroundColor
@@ -25,7 +27,5 @@ namespace DeploymentManager
                 return Brushes.DimGray;
             }
         }
-
-        public RelayCommand ExecuteCommand { get; }
     }
 }

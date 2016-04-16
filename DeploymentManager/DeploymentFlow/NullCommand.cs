@@ -13,10 +13,11 @@ namespace DeploymentFlow
             _name = name;
         }
 
-        async public Task Execute()
+        public async Task<string> Execute()
         {
             Debug.WriteLine(string.Format("{0} executed.", _name));
-            await Task.Delay(10);
+            await Task.Delay(100);
+            return "Ok";
         }
     }
 }

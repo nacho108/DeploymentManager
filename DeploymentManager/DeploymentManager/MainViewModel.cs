@@ -7,12 +7,15 @@ namespace DeploymentManager
 {
     internal class MainViewModel:INotifyPropertyChanged
     {
+
         public WorkFlowProvider FlowProvider { get; }
 
         public MainViewModel(WorkFlowProvider workFlowProvider)
         {
             FlowProvider = workFlowProvider;
         }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

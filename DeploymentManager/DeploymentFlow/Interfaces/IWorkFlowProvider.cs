@@ -8,8 +8,8 @@ namespace DeploymentFlow
     public interface IWorkFlowProvider
     {
         IEnumerable<FlowStep> AllSteps { get; }
-        FlowStep GetCurrentStep();
-        Task ExecuteCurrentStep();
-        bool WorkFlowFinished { get; } 
+        Task StartWorkFlow();
+        bool Running { get; }
+        bool WorkFlowFinished { get; }
     }
 }

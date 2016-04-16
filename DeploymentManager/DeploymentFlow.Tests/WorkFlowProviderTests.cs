@@ -26,14 +26,6 @@ namespace DeploymentFlow.Tests
         }
 
         [TestMethod]
-        public void ShouldShowFirststep()
-        {
-            // Assert
-            Assert.AreEqual(_step1, _workFlowProvider.GetCurrentStep());
-            Assert.AreEqual(false, _workFlowProvider.WorkFlowFinished);
-        }
-
-        [TestMethod]
         public void ShouldreturnAllSteps()
         {
 
@@ -45,41 +37,13 @@ namespace DeploymentFlow.Tests
         }
 
         [TestMethod]
-        async public Task ShouldReturnNextStep()
+        public async Task ShouldRunAllStepsAndSetFinished()
         {
             // act
-            await _workFlowProvider.ExecuteCurrentStep();
+            await _workFlowProvider.StartWorkFlow();
 
             // assert
-            Assert.AreEqual(_step2, _workFlowProvider.GetCurrentStep());
-            Assert.AreEqual(false, _workFlowProvider.WorkFlowFinished);
+            _workFlowProvider.WorkFlowFinished.Should().BeTrue(); 
         }
-
-        [TestMethod]
-        async public Task ShouldReturnLastStepAndSetWorkFlowFinished()
-        {
-            // act
-            await _workFlowProvider.ExecuteCurrentStep();
-            await _workFlowProvider.ExecuteCurrentStep();
-
-            // assert
-            Assert.AreEqual(_step2, _workFlowProvider.GetCurrentStep());
-            Assert.AreEqual(true, _workFlowProvider.WorkFlowFinished);
-        }
-
-        [TestMethod]
-        async public Task ShouldRemainInTheLastStep()
-        {
-            // act
-            await _workFlowProvider.ExecuteCurrentStep();
-            await _workFlowProvider.ExecuteCurrentStep();
-            await _workFlowProvider.ExecuteCurrentStep();
-
-            // assert
-            Assert.AreEqual(_step2, _workFlowProvider.GetCurrentStep());
-            Assert.AreEqual(true, _workFlowProvider.WorkFlowFinished);
-        }
-
-
     }
 }

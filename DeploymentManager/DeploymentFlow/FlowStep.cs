@@ -8,33 +8,19 @@ namespace DeploymentFlow
     public class FlowStep : INotifyPropertyChanged
     {
         public string Description { get; }
+
+        public string State
+        {
+            get { return _state; }
+            private set { _state = value; }
+        }
+
+        public string OutputResults { get; private set; }
+
         public int Order { get; }
 
-        public bool IsCurrent
-        {
-            get { return _isCurrent; }
-            set
-            {
-                if (value == _isCurrent) return;
-                _isCurrent = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsDone
-        {
-            get { return _isDone; }
-            private set
-            {
-                if (value == _isDone) return;
-                _isDone = value;
-                OnPropertyChanged();
-            }
-        }
-
         private readonly ICommand _command;
-        private bool _isDone;
-        private bool _isCurrent;
+        private string _state;
 
         public FlowStep(ICommand command, string description, int order)
         {
@@ -46,11 +32,12 @@ namespace DeploymentFlow
             Order = order;
         }
 
-        async public Task Execute()
+        public async Task Execute()
         {
-            await _command.Execute();
-            IsDone = true;
-            IsCurrent = false;
+            State = "Running...";
+            var result=await _command.Execute();
+            State = "Done.";
+            OutputResults = result;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

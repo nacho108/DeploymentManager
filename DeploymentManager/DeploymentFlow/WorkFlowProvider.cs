@@ -1,47 +1,49 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using DeploymentFlow.Annotations;
 
 namespace DeploymentFlow
 {
-    public class WorkFlowProvider : IWorkFlowProvider
+    public class WorkFlowProvider : IWorkFlowProvider, INotifyPropertyChanged
     {
         private readonly List<FlowStep> _flowSteps;
-        private FlowStep _currentStep;
-        private int _currentStepindex;
         private bool _workFlowFinished;
+        private bool _running;
 
         public WorkFlowProvider(IEnumerable<FlowStep> flowSteps)
         {
             _flowSteps = new List<FlowStep>(flowSteps.OrderBy(o => o.Order).ToList());
-            _currentStepindex = 0;
-            _currentStep = _flowSteps[_currentStepindex];
-            _currentStep.IsCurrent = true;
+        }
+
+        public async Task StartWorkFlow()
+        {
+            if (!_running && !_workFlowFinished)
+            {
+                _running = true;
+                OnPropertyChanged(nameof(Running));
+                for (int i = 0; i < _flowSteps.Count; i++)
+                {
+                    await _flowSteps[i].Execute();
+                }
+                _running = false;
+                OnPropertyChanged(nameof(Running));
+                _workFlowFinished = true;
+                OnPropertyChanged(nameof(WorkFlowFinished));
+            }
         }
 
         public bool WorkFlowFinished => _workFlowFinished;
-
+        public bool Running => _running;
         public IEnumerable<FlowStep> AllSteps => _flowSteps;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public FlowStep GetCurrentStep()
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            return _currentStep;
-        }
-
-        async public Task ExecuteCurrentStep()
-        {
-            if (_workFlowFinished) return;
-            await _currentStep.Execute();
-            _currentStepindex++;
-            if (_currentStepindex <= _flowSteps.Count - 1)
-            {
-                _currentStep = _flowSteps[_currentStepindex];
-                _flowSteps[_currentStepindex].IsCurrent = true;
-            }
-            else
-            {
-                _workFlowFinished = true;
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
