@@ -19,8 +19,10 @@ namespace DeploymentManager
             var stepList = new List<FlowStep>();
             var step1 = new FlowStep(new NullCommand("FirstStep"), "First step", 0);
             var step2 = new FlowStep(new NullCommand("SecondStep"), "Second step", 1);
+            var step3 = new FlowStep(new NullCommand("ThirdStep"), "Third step", 1);
             stepList.Add(step1);
             stepList.Add(step2);
+            stepList.Add(step3);
             var workFlowProvider = new WorkFlowProvider(stepList);
             MainViewModel mainviewModel = new MainViewModel(workFlowProvider);
             MainWindow mw = new MainWindow() { DataContext = mainviewModel };

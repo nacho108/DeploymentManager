@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace DeploymentFlow
             {
                 if (_state == value) return;
                 _state = value;
+                Debug.WriteLine("{0} {1}", Description, State);
                 OnPropertyChanged();
             }
         }
@@ -50,8 +52,7 @@ namespace DeploymentFlow
         public async Task Execute()
         {
             State = StepState.Running;
-            var result=await _command.Execute();
-            OutputResults = result;
+            OutputResults = await _command.Execute();
             State = StepState.Done;
         }
 

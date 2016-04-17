@@ -7,25 +7,30 @@ using DeploymentManager.Annotations;
 
 namespace DeploymentManager
 {
-    public class FlowStepVm 
+    public class FlowStepVm : INotifyPropertyChanged
     {
-        private readonly FlowStep _flowStep;
+        public FlowStep FlowStep { get; }
 
         public FlowStepVm(FlowStep flowStep)
         {
-            _flowStep = flowStep;
+            FlowStep = flowStep;
+            FlowStep.PropertyChanged += FlowStep_PropertyChanged;
         }
 
-        public string Description => _flowStep.Description;
-        public string State => _flowStep.State.ToString();
-
+        private void FlowStep_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "State")
+            {
+                OnPropertyChanged("StepBackgroundColor");
+            }
+        }
 
         public Brush StepBackgroundColor
         {
             get
             {
                 Console.WriteLine("pidio back");
-                switch (_flowStep.State)
+                switch (FlowStep.State)
                 {
                     case StepState.Running:
                         return Brushes.Green;
@@ -34,6 +39,14 @@ namespace DeploymentManager
                 }
                 return Brushes.DimGray;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
