@@ -8,7 +8,7 @@
         Title="TrueView Deployment Manager" Height="350" Width="525">
     <Grid Name="General" Background="Black">
         <ListBox  HorizontalAlignment="Left" Height="264" Margin="30,23,0,0" VerticalAlignment="Top"
-            Width="161" ItemsSource="{Binding Path=FlowProvider.AllSteps}" HorizontalContentAlignment="Stretch" Background="Black">
+            Width="161" ItemsSource="{Binding Path=FlowStepsVm}" HorizontalContentAlignment="Stretch" Background="Black">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid >
@@ -17,10 +17,11 @@
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Description}" Foreground="AliceBlue" Background="{Binding StepBackgroundColor}" HorizontalAlignment="Left"/>
-                        <Button Grid.Column="1" x:Name="button" Command="{Binding ExecuteCommand}" Background="{Binding StepBackgroundColor}" Foreground="AliceBlue" Content="Execute" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="1"   Text="{Binding State}" Foreground="AliceBlue" Background="{Binding StepBackgroundColor}" HorizontalAlignment="Left"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Command="{Binding StartCommand}" Content="Button" HorizontalAlignment="Left" Margin="225,23,0,0" VerticalAlignment="Top" Width="90" Height="28"/>
     </Grid>
 </Window>

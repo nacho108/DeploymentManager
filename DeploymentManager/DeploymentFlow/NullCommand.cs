@@ -16,7 +16,7 @@ namespace DeploymentFlow
         public async Task<string> Execute()
         {
             Debug.WriteLine(string.Format("{0} executed.", _name));
-            await Task.Delay(100);
+            await Task.Delay(1000);
             return "Ok";
         }
     }

@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using DeploymentFlow;
 using DeploymentManager.Annotations;
@@ -7,15 +10,18 @@ namespace DeploymentManager
 {
     internal class MainViewModel:INotifyPropertyChanged
     {
-
-        public WorkFlowProvider FlowProvider { get; }
+        private readonly WorkFlowProvider _flowProvider;
 
         public MainViewModel(WorkFlowProvider workFlowProvider)
         {
-            FlowProvider = workFlowProvider;
+            _flowProvider = workFlowProvider;
+            FlowStepsVm = _flowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
+            StartCommand =new RelayCommand(async o=> { await workFlowProvider.StartWorkFlow(); });
         }
 
+        public List<FlowStepVm> FlowStepsVm { get; }
 
+        public RelayCommand StartCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

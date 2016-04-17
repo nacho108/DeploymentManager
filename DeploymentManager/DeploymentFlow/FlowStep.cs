@@ -9,7 +9,7 @@ namespace DeploymentFlow
     {
         public string Description { get; }
 
-        public string State
+        public StepState State
         {
             get { return _state; }
             private set
@@ -34,7 +34,7 @@ namespace DeploymentFlow
         public int Order { get; }
 
         private readonly ICommand _command;
-        private string _state;
+        private StepState _state;
         private string _outputResults;
 
         public FlowStep(ICommand command, string description, int order)
@@ -49,10 +49,10 @@ namespace DeploymentFlow
 
         public async Task Execute()
         {
-            State = "Running...";
+            State = StepState.Running;
             var result=await _command.Execute();
             OutputResults = result;
-            State = "Done.";
+            State = StepState.Done;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
