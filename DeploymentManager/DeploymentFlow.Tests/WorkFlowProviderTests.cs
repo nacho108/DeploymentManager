@@ -43,7 +43,7 @@ namespace DeploymentFlow.Tests
             await _workFlowProvider.StartWorkFlow();
 
             // assert
-            _workFlowProvider.WorkFlowFinished.Should().BeTrue(); 
+            _workFlowProvider.State.Should().Be(WorkFlowState.FinishedSuccesfuly); 
         }
     }
 }

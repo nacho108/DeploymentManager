@@ -10,12 +10,12 @@ namespace DeploymentManager
 {
     internal class MainViewModel:INotifyPropertyChanged
     {
-        private readonly WorkFlowProvider _flowProvider;
+        public WorkFlowProvider FlowProvider { get; }
 
         public MainViewModel(WorkFlowProvider workFlowProvider)
         {
-            _flowProvider = workFlowProvider;
-            FlowStepsVm = _flowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
+            FlowProvider = workFlowProvider;
+            FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
             StartCommand =new RelayCommand(async o=> { await workFlowProvider.StartWorkFlow(); });
         }
 

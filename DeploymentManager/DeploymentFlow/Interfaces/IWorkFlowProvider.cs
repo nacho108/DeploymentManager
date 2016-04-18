@@ -9,7 +9,6 @@ namespace DeploymentFlow
     {
         IEnumerable<FlowStep> AllSteps { get; }
         Task StartWorkFlow();
-        bool Running { get; }
-        bool WorkFlowFinished { get; }
+        WorkFlowState State { get; }
     }
 }

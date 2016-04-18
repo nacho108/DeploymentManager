@@ -10,8 +10,7 @@ namespace DeploymentFlow
     public class WorkFlowProvider : IWorkFlowProvider, INotifyPropertyChanged
     {
         private readonly List<FlowStep> _flowSteps;
-        private bool _workFlowFinished;
-        private bool _running;
+        private WorkFlowState _state;
 
         public WorkFlowProvider(IEnumerable<FlowStep> flowSteps)
         {
@@ -20,23 +19,28 @@ namespace DeploymentFlow
 
         public async Task StartWorkFlow()
         {
-            if (!_running && !_workFlowFinished)
+            if (State==WorkFlowState.Created)
             {
-                _running = true;
-                OnPropertyChanged(nameof(Running));
+                State = WorkFlowState.Running;
                 for (int i = 0; i < _flowSteps.Count; i++)
                 {
                     await _flowSteps[i].Execute();
                 }
-                _running = false;
-                OnPropertyChanged(nameof(Running));
-                _workFlowFinished = true;
-                OnPropertyChanged(nameof(WorkFlowFinished));
+                State=WorkFlowState.FinishedSuccesfuly;
             }
         }
 
-        public bool WorkFlowFinished => _workFlowFinished;
-        public bool Running => _running;
+        public WorkFlowState State
+        {
+            get { return _state; }
+            private set
+            {
+                if (value == _state) return;
+                _state = value;
+                OnPropertyChanged();
+            }
+        }
+
         public IEnumerable<FlowStep> AllSteps => _flowSteps;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -45,5 +49,13 @@ namespace DeploymentFlow
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public enum WorkFlowState
+    {
+        Created,
+        Running,
+        FinishedWithError,
+        FinishedSuccesfuly
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeploymentManager"
         mc:Ignorable="d"
-        Title="TrueView Deployment Manager" Height="350" Width="525">
+        Title="TrueView Deployment Manager" Height="350" Width="578.067">
     <Grid Name="General" Background="Black" Margin="0,0,0,-31">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -26,5 +26,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Command="{Binding StartCommand}" Content="Button" HorizontalAlignment="Left" Margin="420,10,0,0" VerticalAlignment="Top" Width="90" Height="28"/>
+        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="420,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Foreground="White"/>
     </Grid>
 </Window>
