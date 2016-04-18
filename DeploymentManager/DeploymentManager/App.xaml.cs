@@ -19,7 +19,7 @@ namespace DeploymentManager
             var stepList = new List<FlowStep>();
             var step1 = new FlowStep(new NullCommand("FirstStep"), "First step", 0);
             var step2 = new FlowStep(new NullCommand("SecondStep"), "Second step", 1);
-            var step3 = new FlowStep(new AskCommand(new WpfQuestion("Esta seguro de continuar?")),"Third step",2);
+            var step3 = new FlowStep(new AskCommand(new WpfQuestion("https://www.google.com.ua/?gfe_rd=cr&ei=9GMUV5-jC86BtAHIm4_4Aw&gws_rd=ssl ")),"Third step",2);
             stepList.Add(step1);
             stepList.Add(step2);
             stepList.Add(step3);
