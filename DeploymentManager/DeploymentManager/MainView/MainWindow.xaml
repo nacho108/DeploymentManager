@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeploymentManager"
         mc:Ignorable="d"
-        Title="TrueView Deployment Manager" Height="350" Width="578.067">
-    <Grid Name="General" Background="Black" Margin="0,0,0,-31">
+        Title="TrueView Deployment Manager" Height="422.968" Width="644.401">
+    <Grid Name="General" Background="Black" Margin="0,0,-43,-31">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="515*"/>
         </Grid.ColumnDefinitions>
-        <ListBox  HorizontalAlignment="Left" Height="220" Margin="10,10,0,0" VerticalAlignment="Top"
-            Width="405" ItemsSource="{Binding Path=FlowStepsVm}" HorizontalContentAlignment="Stretch" Background="Black">
+        <ListBox    HorizontalAlignment="Left" Height="165" Margin="10,10,0,0" VerticalAlignment="Top"
+                    HorizontalContentAlignment="Stretch" Background="#FF2E2B2B"
+                    Width="500" ItemsSource="{Binding Path=FlowStepsVm}" SelectedValue="{Binding StepSelected}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid >
@@ -25,7 +26,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Command="{Binding StartCommand}" Content="Button" HorizontalAlignment="Left" Margin="420,10,0,0" VerticalAlignment="Top" Width="90" Height="28"/>
-        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="420,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Foreground="White"/>
+        <Button Command="{Binding StartCommand}" Content="Button" HorizontalAlignment="Left" Margin="525,10,0,0" VerticalAlignment="Top" Width="90" Height="28" Grid.ColumnSpan="2"/>
+        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="525,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Foreground="White" Background="#FF4B4B4F"/>
+        <TextBlock  Text="{Binding SelectedStepOutput}" HorizontalAlignment="Left" Height="198" Margin="10,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" Grid.ColumnSpan="2" Background="#FF292626" Foreground="White"/>
     </Grid>
 </Window>

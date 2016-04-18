@@ -13,17 +13,17 @@ namespace DeploymentFlow
             _question = question;
         }
 
-        public async Task<string> Execute()
+        public async Task<CommandResult> Execute()
         {
             var a=_question.GetResponse();
             switch (a)
             {
                 case Response.Ok:
-                    return "ok";
+                    return new CommandResult(0,"Ok");
                 case Response.Cancel:
-                    return "Cancelled";
+                    return new CommandResult(1, "Cancelled");
             }
-            return "Cancelled";
+            return new CommandResult(0, "Cancelled");
         }
     }
 }

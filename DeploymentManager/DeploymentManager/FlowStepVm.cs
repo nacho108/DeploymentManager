@@ -36,6 +36,8 @@ namespace DeploymentManager
                         return Brushes.Green;
                     case StepState.Done:
                         return Brushes.DarkOliveGreen;
+                    case StepState.Error:
+                        return Brushes.Red;
                 }
                 return Brushes.DimGray;
             }

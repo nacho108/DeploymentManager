@@ -10,6 +10,9 @@ namespace DeploymentManager
 {
     internal class MainViewModel:INotifyPropertyChanged
     {
+        private FlowStepVm _stepSelected;
+        private string _selectedStepOutput;
+
         public WorkFlowProvider FlowProvider { get; }
 
         public MainViewModel(WorkFlowProvider workFlowProvider)
@@ -19,7 +22,29 @@ namespace DeploymentManager
             StartCommand =new RelayCommand(async o=> { await workFlowProvider.StartWorkFlow(); });
         }
 
+        public string SelectedStepOutput
+        {
+            get { Debug.WriteLine("Pidio _selectedStepOutput"); return _selectedStepOutput; }
+            private set
+            {
+                if (value == _selectedStepOutput) return;
+                _selectedStepOutput = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<FlowStepVm> FlowStepsVm { get; }
+
+        public FlowStepVm StepSelected
+        {
+            get { return _stepSelected; }
+            set
+            {
+                if (value == _stepSelected) return;
+                _stepSelected = value;
+                SelectedStepOutput = _stepSelected.FlowStep.OutputResults;
+            }
+        }
 
         public RelayCommand StartCommand { get; }
 

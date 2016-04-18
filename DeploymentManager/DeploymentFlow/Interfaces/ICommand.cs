@@ -4,6 +4,6 @@ namespace DeploymentFlow
 {
     public interface ICommand
     {
-        Task<string> Execute();
+        Task<CommandResult> Execute();
     }
 }

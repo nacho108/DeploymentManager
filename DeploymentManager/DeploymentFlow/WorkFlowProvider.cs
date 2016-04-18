@@ -50,12 +50,4 @@ namespace DeploymentFlow
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    public enum WorkFlowState
-    {
-        Created,
-        Running,
-        FinishedWithError,
-        FinishedSuccesfuly
-    }
 }

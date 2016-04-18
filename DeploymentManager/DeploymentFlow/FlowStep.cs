@@ -52,8 +52,16 @@ namespace DeploymentFlow
         public async Task Execute()
         {
             State = StepState.Running;
-            OutputResults = await _command.Execute();
-            State = StepState.Done;
+            var result = await _command.Execute();
+            OutputResults = result.Output;
+            if (result.ExitCode == 0)
+            {
+                State = StepState.Done;
+            }
+            else
+            {
+                State = StepState.Error;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

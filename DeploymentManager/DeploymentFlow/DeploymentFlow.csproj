@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AskCommand.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Commands\ShellCommand.cs" />
     <Compile Include="FlowStep.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="StepState.cs" />
     <Compile Include="WorkFlowProvider.cs" />
+    <Compile Include="WorkFlowState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
