@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeploymentManager"
         mc:Ignorable="d"
-        Title="TrueView Deployment Manager" Height="422.968" Width="644.401">
-    <Grid Name="General" Background="Black" Margin="0,0,-43,-31">
+        Title="TrueView Deployment Manager" Height="445.079" Width="672.041" Background="#FF020202">
+    <Grid Name="General" Background="Black" Margin="0,0,13,8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="515*"/>
         </Grid.ColumnDefinitions>
-        <ListBox    HorizontalAlignment="Left" Height="165" Margin="10,10,0,0" VerticalAlignment="Top"
+        <ListBox    HorizontalAlignment="Left" Height="146" Margin="10,29,0,0" VerticalAlignment="Top"
                     HorizontalContentAlignment="Stretch" Background="#FF2E2B2B"
                     Width="500" ItemsSource="{Binding Path=FlowStepsVm}" SelectedValue="{Binding StepSelected}" >
             <ListBox.ItemTemplate>
@@ -26,8 +26,30 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Command="{Binding StartCommand}" Content="Button" HorizontalAlignment="Left" Margin="525,10,0,0" VerticalAlignment="Top" Width="90" Height="28" Grid.ColumnSpan="2"/>
-        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="525,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Foreground="White" Background="#FF4B4B4F"/>
-        <TextBlock  Text="{Binding SelectedStepOutput}" HorizontalAlignment="Left" Height="198" Margin="10,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" Grid.ColumnSpan="2" Background="#FF292626" Foreground="White"/>
+        <Button Command="{Binding StartCommand}" Content="Start WorkFlow" HorizontalAlignment="Left" Margin="538,29,0,0" VerticalAlignment="Top" Width="103" Height="28"/>
+        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="521,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" Background="#FF4B4B4F"/>
+        <TextBlock  ScrollViewer.HorizontalScrollBarVisibility="Visible"  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    Text="{Binding SelectedStepOutput}" Height="180" Margin="10,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                    Width="595" Background="#FF292626" Foreground="White" HorizontalAlignment="Left"  />
+        <Label x:Name="label" Content="Output:" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.085"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label x:Name="label_Copy" Content="Workflow steps:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.085"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
     </Grid>
 </Window>

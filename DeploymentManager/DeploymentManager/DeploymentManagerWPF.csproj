@@ -105,10 +105,6 @@
       <Project>{8f5d9ccd-98c2-4681-bdfe-70493e89f04e}</Project>
       <Name>DeploymentFlow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GitProvider\GitProvider.csproj">
-      <Project>{de9ca16d-5893-421e-b0a6-299c4d5d1615}</Project>
-      <Name>GitProvider</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

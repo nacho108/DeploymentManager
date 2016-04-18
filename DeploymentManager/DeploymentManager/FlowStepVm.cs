@@ -29,7 +29,6 @@ namespace DeploymentManager
         {
             get
             {
-                Console.WriteLine("pidio back");
                 switch (FlowStep.State)
                 {
                     case StepState.Running:

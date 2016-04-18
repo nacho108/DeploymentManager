@@ -7,25 +7,36 @@ namespace DeploymentFlow
     {
         public async Task<CommandResult> Execute()
         {
-            string output = "";
-            Process p = new Process();
+            string standardOutput ="";
+            string standardError ;
+            int exitCode=9;
             await Task.Run(() =>
             {
-                // Start the child process.
-                // Redirect the output stream of the child process.
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.FileName = "test.bat";
-                p.Start();
+                using (var process = new Process())
+                {
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.FileName = "test.bat";
 
-                // Do not wait for the child process to exit before
-                // reading to the end of its redirected stream.
-                // p.WaitForExit();
-                // Read the output stream first and then wait.
-                output = p.StandardOutput.ReadToEnd();
-                p.WaitForExit();
+                    process.Start();
+
+                    //Thread.Sleep(100);
+
+                    using (Task processWaiter = Task.Run(() => process.WaitForExit()))
+                    using (Task<string> outputReader = Task.Run(() => process.StandardOutput.ReadToEnd()))
+                    using (Task<string> errorReader = Task.Factory.StartNew(() => process.StandardError.ReadToEnd()))
+                    {
+                        Task.WaitAll(processWaiter, outputReader, errorReader);
+
+                        standardOutput = outputReader.Result;
+                        standardError = errorReader.Result;
+                        exitCode = process.ExitCode;
+                    }
+                }
             });
-            return new CommandResult(p.ExitCode,output);
+            return new CommandResult(exitCode, standardOutput);
         }
     }
 }

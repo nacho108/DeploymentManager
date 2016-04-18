@@ -25,8 +25,16 @@ namespace DeploymentFlow
                 for (int i = 0; i < _flowSteps.Count; i++)
                 {
                     await _flowSteps[i].Execute();
+                    if (_flowSteps[i].State == StepState.Error)
+                    {
+                        State = WorkFlowState.FinishedWithError;
+                        break;
+                    }
                 }
-                State=WorkFlowState.FinishedSuccesfuly;
+                if (State == WorkFlowState.Running)
+                {
+                    State = WorkFlowState.FinishedSuccesfuly;
+                }
             }
         }
 
