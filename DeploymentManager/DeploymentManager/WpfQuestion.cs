@@ -6,9 +6,16 @@ namespace DeploymentManager
 {
     public class WpfQuestion : IQuestion
     {
-        public Response GetResponse(string question)
+        private readonly string _questionText;
+
+        public WpfQuestion(string questionText)
         {
-            var a = MessageBox.Show(question, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            _questionText = questionText;
+        }
+
+        public Response GetResponse( )
+        {
+            var a = MessageBox.Show(_questionText, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             switch (a)
             {
                 case MessageBoxResult.Cancel:

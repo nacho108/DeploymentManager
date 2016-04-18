@@ -4,6 +4,6 @@ namespace DeploymentFlow
 {
     public interface IQuestion
     {
-        Response GetResponse(string question);
+        Response GetResponse();
     }
 }

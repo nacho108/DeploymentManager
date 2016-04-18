@@ -13,9 +13,9 @@ namespace DeploymentFlow
             _question = question;
         }
 
-        public Task<string> Execute()
+        public async Task<string> Execute()
         {
-            var a=_question.GetResponse("");
+            var a=_question.GetResponse();
             switch (a)
             {
                 case Response.Ok:
