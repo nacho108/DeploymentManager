@@ -18,7 +18,7 @@ namespace DeploymentFlow
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.FileName = "test.bat";
+                    process.StartInfo.FileName = "..\\..\\batchs\\test.bat";
 
                     process.Start();
 
