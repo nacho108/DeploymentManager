@@ -11,7 +11,7 @@
             <ColumnDefinition Width="515*"/>
         </Grid.ColumnDefinitions>
         <ListBox    HorizontalAlignment="Left" Height="146" Margin="10,29,0,0" VerticalAlignment="Top"
-                    HorizontalContentAlignment="Stretch" Background="#FF2E2B2B"
+                    HorizontalContentAlignment="Stretch" Background="#FF282828"
                     Width="500" ItemsSource="{Binding Path=FlowStepsVm}" SelectedValue="{Binding StepSelected}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -28,9 +28,9 @@
         </ListBox>
         <Button Command="{Binding StartCommand}" Content="Start WorkFlow" HorizontalAlignment="Left" Margin="538,29,0,0" VerticalAlignment="Top" Width="103" Height="28"/>
         <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="521,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" Background="#FF4B4B4F"/>
-        <TextBlock  ScrollViewer.HorizontalScrollBarVisibility="Visible"  ScrollViewer.VerticalScrollBarVisibility="Visible"
-                    Text="{Binding SelectedStepOutput}" Height="180" Margin="10,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
-                    Width="595" Background="#FF292626" Foreground="White" HorizontalAlignment="Left"  />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="177" Width="500" HorizontalScrollBarVisibility="Disabled" Margin="10,219,141,10" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FFC14848" Background="#FF282828" BorderThickness="1">        
+            <TextBlock  Text="{Binding SelectedStepOutput}" VerticalAlignment="Top" Width="464" Foreground="White" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
+        </ScrollViewer>
         <Label x:Name="label" Content="Output:" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White">
             <Label.RenderTransform>
                 <TransformGroup>

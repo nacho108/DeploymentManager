@@ -1,6 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using DeploymentFlow.Annotations;
 
 namespace DeploymentFlow
 {
@@ -19,11 +22,23 @@ namespace DeploymentFlow
             switch (a)
             {
                 case Response.Ok:
+                    Output = "Ok";
                     return new CommandResult(0,"Ok");
                 case Response.Cancel:
+                    Output = "Cancel";
                     return new CommandResult(1, "Cancelled");
             }
             return new CommandResult(0, "Cancelled");
+        }
+
+        public string Output { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

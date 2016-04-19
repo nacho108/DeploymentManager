@@ -52,8 +52,9 @@ namespace DeploymentFlow
         public async Task Execute()
         {
             State = StepState.Running;
+            _command.PropertyChanged += _command_PropertyChanged;
             var result = await _command.Execute();
-            OutputResults = result.Output;
+            OutputResults = _command.Output;
             if (result.ExitCode == 0)
             {
                 State = StepState.Done;
@@ -61,6 +62,14 @@ namespace DeploymentFlow
             else
             {
                 State = StepState.Error;
+            }
+        }
+
+        private void _command_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Output")
+            {
+                OnPropertyChanged("OutputResults");
             }
         }
 

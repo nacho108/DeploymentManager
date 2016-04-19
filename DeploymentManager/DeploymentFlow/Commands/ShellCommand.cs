@@ -6,15 +6,15 @@ using DeploymentFlow.Annotations;
 
 namespace DeploymentFlow.Commands
 {
-    public class ShellCommand : ICommand, INotifyPropertyChanged
+    public class ShellCommand : ICommand
     {
         private readonly string _filename;
-        private readonly string _parameters;
+        private readonly string _arguments;
 
-        public ShellCommand(string filename, string parameters)
+        public ShellCommand(string filename, string arguments)
         {
             _filename = filename;
-            _parameters = parameters;
+            _arguments = arguments;
         }
 
         private string _output;
@@ -41,24 +41,29 @@ namespace DeploymentFlow.Commands
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.FileName = "..\\..\\batchs\\test.bat";
+                    process.StartInfo.Arguments = _arguments;
+                    process.StartInfo.FileName = _filename;
                     process.OutputDataReceived += Process_OutputDataReceived;
+                    process.ErrorDataReceived += Process_ErrorDataReceived;
                     process.Start();
                     process.BeginOutputReadLine();
-
-                    using (Task processWaiter = Task.Run(() => process.WaitForExit()))
-                    {
-                        Task.WaitAll(processWaiter);
-                        exitCode = process.ExitCode;
-                    }
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+                    exitCode = process.ExitCode;
                 }
             });
+            await Task.Delay(3000);
             return new CommandResult(exitCode, _output);
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            Output += e.Data + "\n";
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _output += e.Data+"\n";
+            Output += e.Data+"\n";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

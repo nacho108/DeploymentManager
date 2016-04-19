@@ -1,6 +1,9 @@
 
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using DeploymentFlow.Annotations;
 
 namespace DeploymentFlow
 {
@@ -16,7 +19,18 @@ namespace DeploymentFlow
         public async Task<CommandResult> Execute()
         {
             await Task.Delay(200);
+            Output = "Ok";
             return new CommandResult(0, "Ok");
+        }
+
+        public string Output { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
