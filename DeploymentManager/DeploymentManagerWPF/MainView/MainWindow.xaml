@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DeploymentManager"
         mc:Ignorable="d"
         Title="TrueView Deployment Manager" Height="445.079" Width="672.041" Background="#FF020202">
     <Grid Name="General" Background="Black" Margin="0,0,13,8">
@@ -31,25 +30,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" Height="177" Width="500" HorizontalScrollBarVisibility="Disabled" Margin="10,219,141,10" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FFC14848" Background="#FF282828" BorderThickness="1">        
             <TextBlock  Text="{Binding SelectedStepOutput}" VerticalAlignment="Top" Width="464" Foreground="White" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
         </ScrollViewer>
-        <Label x:Name="label" Content="Output:" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.085"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label x:Name="label_Copy" Content="Workflow steps:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="-0.085"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
+        <Label Content="Output:" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White"/>
+        <Label Content="Workflow steps:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White"/>
     </Grid>
 </Window>

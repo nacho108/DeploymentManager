@@ -1,9 +1,9 @@
-cd C:\Projects\Trueview
-@if %errorlevel% neq 0 exit /b %errorlevel%
-git checkout release
-@if %errorlevel% neq 0 exit /b %errorlevel%
-git checkout develop
-@if %errorlevel% neq 0 exit /b %errorlevel%
+cd c:\projects\trueview
+git checkout master
+REM @if %errorlevel% neq 0 exit /b %errorlevel%
+REM git checkout develop
+REM @if %errorlevel% neq 0 exit /b %errorlevel%
+pause
 
 
 

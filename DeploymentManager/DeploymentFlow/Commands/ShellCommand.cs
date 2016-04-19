@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DeploymentFlow.Annotations;
@@ -32,7 +33,7 @@ namespace DeploymentFlow.Commands
 
         public async Task<CommandResult> Execute()
         {
-            int exitCode=9;
+            int exitCode=0;
             await Task.Run(() =>
             {
                 using (var process = new Process())
@@ -52,7 +53,6 @@ namespace DeploymentFlow.Commands
                     exitCode = process.ExitCode;
                 }
             });
-            await Task.Delay(3000);
             return new CommandResult(exitCode, _output);
         }
 
