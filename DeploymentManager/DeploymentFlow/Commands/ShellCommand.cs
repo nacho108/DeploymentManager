@@ -8,7 +8,17 @@ namespace DeploymentFlow.Commands
 {
     public class ShellCommand : ICommand, INotifyPropertyChanged
     {
+        private readonly string _filename;
+        private readonly string _parameters;
+
+        public ShellCommand(string filename, string parameters)
+        {
+            _filename = filename;
+            _parameters = parameters;
+        }
+
         private string _output;
+
         public string Output
         {
             get { return _output; }
