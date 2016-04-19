@@ -24,7 +24,7 @@ namespace DeploymentManager
 
         public string SelectedStepOutput
         {
-            get { Debug.WriteLine("Pidio _selectedStepOutput"); return _selectedStepOutput; }
+            get { return _selectedStepOutput; }
             private set
             {
                 if (value == _selectedStepOutput) return;
