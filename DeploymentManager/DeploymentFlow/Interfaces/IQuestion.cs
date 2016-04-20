@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace DeploymentFlow
+﻿namespace DeploymentFlow.Interfaces
 {
     public interface IQuestion
     {

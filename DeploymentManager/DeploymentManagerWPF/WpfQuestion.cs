@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using DeploymentFlow;
+using DeploymentFlow.Interfaces;
 
 namespace DeploymentManager
 {

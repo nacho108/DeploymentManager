@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Data;
-using System.Dynamic;
 using System.Threading.Tasks;
 
-namespace DeploymentFlow
+namespace DeploymentFlow.Interfaces
 {
     public interface IWorkFlowProvider
     {

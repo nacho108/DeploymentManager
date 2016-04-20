@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using DeploymentFlow.Interfaces;
 
 namespace DeploymentFlow
 {
@@ -22,7 +23,7 @@ namespace DeploymentFlow
             }
         }
 
-        public string CommandDecription => _command.Description;
+        public string CommandDescription => _command.CommandDescription;
 
         public string OutputResults
         {

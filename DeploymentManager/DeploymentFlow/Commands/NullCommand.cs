@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DeploymentFlow.Annotations;
+using DeploymentFlow.Interfaces;
 
 namespace DeploymentFlow
 {
@@ -23,7 +24,7 @@ namespace DeploymentFlow
             return new CommandResult(0, "Ok");
         }
 
-        public string Description => "NullComand";
+        public string CommandDescription => "NullComand";
 
         public string Output { get; private set; }
 

@@ -48,11 +48,13 @@
     <Compile Include="Interfaces\IWorkFlowProvider.cs" />
     <Compile Include="Interfaces\IQuestion.cs" />
     <Compile Include="Commands\NullCommand.cs" />
+    <Compile Include="Interfaces\IWorkFlowProviderFactory.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="StepState.cs" />
     <Compile Include="WorkFlowProvider.cs" />
+    <Compile Include="WorkFlowProviderFactory.cs" />
     <Compile Include="WorkFlowState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

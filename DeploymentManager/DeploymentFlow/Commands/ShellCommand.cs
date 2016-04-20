@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DeploymentFlow.Annotations;
+using DeploymentFlow.Interfaces;
 
 namespace DeploymentFlow.Commands
 {
@@ -56,7 +57,7 @@ namespace DeploymentFlow.Commands
             return new CommandResult(exitCode, _output);
         }
 
-        public string Description => _filename + " " + _arguments;
+        public string CommandDescription => _filename + " " + _arguments;
             
 
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)

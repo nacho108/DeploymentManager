@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using DeploymentFlow.Annotations;
+using DeploymentFlow.Interfaces;
 
 namespace DeploymentFlow
 {
@@ -31,7 +32,7 @@ namespace DeploymentFlow
             return new CommandResult(0, "Cancelled");
         }
 
-        public string Description => "Question";
+        public string CommandDescription => "Question";
 
         public string Output { get; private set; }
 
