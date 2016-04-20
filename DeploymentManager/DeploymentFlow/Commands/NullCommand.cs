@@ -23,6 +23,8 @@ namespace DeploymentFlow
             return new CommandResult(0, "Ok");
         }
 
+        public string Description => "NullComand";
+
         public string Output { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

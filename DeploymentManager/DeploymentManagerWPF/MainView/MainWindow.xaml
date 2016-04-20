@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="TrueView Deployment Manager" Height="445.079" Width="672.041" Background="#FF020202">
+        Title="TrueView Deployment Manager" Height="535.171" Width="672.041" Background="#FF020202">
     <Grid Name="General" Background="Black" Margin="0,0,13,8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="515*"/>
@@ -25,12 +25,15 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Command="{Binding StartCommand}" Content="Start WorkFlow" HorizontalAlignment="Left" Margin="538,29,0,0" VerticalAlignment="Top" Width="103" Height="28"/>
-        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="521,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Foreground="White" Background="#FF4B4B4F"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="177" Width="500" HorizontalScrollBarVisibility="Disabled" Margin="10,219,141,10" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FFC14848" Background="#FF282828" BorderThickness="1">        
+        <Button Command="{Binding StartCommand}" Content="Start WorkFlow" HorizontalAlignment="Left" Margin="521,100,0,0" VerticalAlignment="Top" Width="130" Height="28"/>
+        <TextBlock Text="{Binding FlowProvider.State}"  HorizontalAlignment="Left" Margin="521,159,0,0" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Foreground="White" Background="#FF4B4B4F"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="177" Width="500" HorizontalScrollBarVisibility="Disabled" Margin="10,293,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FFC14848" Background="#FF282828" BorderThickness="1">
             <TextBlock  Text="{Binding SelectedStepOutput}" VerticalAlignment="Top" Width="464" Foreground="White" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
         </ScrollViewer>
-        <Label Content="Output:" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White"/>
+        <Label Content="Output:" HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White"/>
         <Label Content="Workflow steps:" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="102" Foreground="White"/>
+        <TextBlock Text="{Binding SelectedDescription}" Height="30" Width="500" HorizontalAlignment="Left" Margin="10,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="#FF282828" Foreground="White"/>
+        <Label Content="Command" HorizontalAlignment="Left" Margin="10,193,0,0" VerticalAlignment="Top" Width="128" Foreground="White"/>
+        <Button Command="{Binding CreateWorkflowCommand}" Content="Create new Workflow" HorizontalAlignment="Left" Margin="521,29,0,0" Height="28" VerticalAlignment="Top" Width="130"/>
     </Grid>
 </Window>

@@ -22,6 +22,8 @@ namespace DeploymentFlow
             }
         }
 
+        public string CommandDecription => _command.Description;
+
         public string OutputResults
         {
             get { return _outputResults; }

@@ -56,6 +56,9 @@ namespace DeploymentFlow.Commands
             return new CommandResult(exitCode, _output);
         }
 
+        public string Description => _filename + " " + _arguments;
+            
+
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             Output += e.Data + "\n";

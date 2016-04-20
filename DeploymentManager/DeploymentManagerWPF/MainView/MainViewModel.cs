@@ -12,6 +12,7 @@ namespace DeploymentManager
     {
         private FlowStepVm _stepSelected;
         private string _selectedStepOutput;
+        private string _selectedDescription;
 
         public WorkFlowProvider FlowProvider { get; }
 
@@ -20,6 +21,17 @@ namespace DeploymentManager
             FlowProvider = workFlowProvider;
             FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
             StartCommand =new RelayCommand(async o=> { await workFlowProvider.StartWorkFlow(); });
+        }
+
+        public string SelectedDescription
+        {
+            get { return _selectedDescription; }
+            private set
+            {
+                if (value == _selectedDescription) return;
+                _selectedDescription = value;
+                OnPropertyChanged();
+            }
         }
 
         public string SelectedStepOutput
@@ -43,6 +55,7 @@ namespace DeploymentManager
                 if (value == _stepSelected) return;
                 _stepSelected = value;
                 SelectedStepOutput = _stepSelected.FlowStep.OutputResults;
+                SelectedDescription = StepSelected.FlowStep.CommandDecription;
             }
         }
 

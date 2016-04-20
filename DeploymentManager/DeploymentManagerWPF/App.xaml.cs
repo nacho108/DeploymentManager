@@ -19,12 +19,11 @@ namespace DeploymentManager
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var stepList = new List<FlowStep>();
-
-            //var step3 = new FlowStep(new AskCommand(new WpfQuestion("https://www.google.com.ua/?gfe_rd=cr&ei=9GMUV5-jC86BtAHIm4_4Aw&gws_rd=ssl ")), "Third step", 2);
-
-            stepList.Add(new FlowStep(new NullCommand("first"), "something", 0));
-            stepList.Add(new FlowStep(new ShellCommand("cmd.exe", "/C git -C C:\\Projects\\testing checkout develop"), "Checkout local Develop branch", 0));
-            stepList.Add(new FlowStep(new ShellCommand("cmd.exe", "/C git -C C:\\Projects\\testing pull"), "Pull remote", 0));
+            stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C C:\\Projects\\testing checkout develop"), "Checkout local Develop branch", 1));
+            stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C C:\\Projects\\testing pull"), "Pull remote develop", 2));
+            stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C C:\\Projects\\testing checkout release"), "Checkout local release branch", 3));
+            stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C C:\\Projects\\testing pull"), "Pull remote release", 4));
+            stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C C:\\Projects\\testing merge develop"), "Merging locally develop->Release", 5));
 
             var workFlowProvider = new WorkFlowProvider(stepList);
             MainViewModel mainviewModel = new MainViewModel(workFlowProvider);

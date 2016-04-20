@@ -31,6 +31,8 @@ namespace DeploymentFlow
             return new CommandResult(0, "Cancelled");
         }
 
+        public string Description => "Question";
+
         public string Output { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
