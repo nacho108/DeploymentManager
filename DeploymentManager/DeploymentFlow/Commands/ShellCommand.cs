@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -13,8 +14,10 @@ namespace DeploymentFlow.Commands
         private readonly string _filename;
         private readonly string _arguments;
 
-        public ShellCommand(string filename, string arguments)
+        public ShellCommand([NotNull] string filename, [NotNull] string arguments)
         {
+            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            if (arguments == null) throw new ArgumentNullException(nameof(arguments));
             _filename = filename;
             _arguments = arguments;
         }

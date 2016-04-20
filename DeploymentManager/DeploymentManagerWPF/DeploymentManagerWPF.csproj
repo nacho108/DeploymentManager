@@ -105,6 +105,10 @@
       <Project>{8f5d9ccd-98c2-4681-bdfe-70493e89f04e}</Project>
       <Name>DeploymentFlow</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SkypeMessengerProvider\SkypeMessengerProvider.csproj">
+      <Project>{b20a01b9-59dd-4a09-ae5d-dd9a13675fc7}</Project>
+      <Name>SkypeMessengerProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
