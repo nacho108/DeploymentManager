@@ -1,4 +1,4 @@
-﻿namespace DeploymentFlow
+﻿namespace Contracts
 {
     public class CommandResult
     {

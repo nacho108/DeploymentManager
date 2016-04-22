@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Contracts;
 using DeploymentFlow.Interfaces;
 
 namespace DeploymentFlow

@@ -64,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{64ca7dd0-bb2f-46d7-bc4e-91db31a4e75d}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeploymentFlow\DeploymentFlow.csproj">
       <Project>{8f5d9ccd-98c2-4681-bdfe-70493e89f04e}</Project>
       <Name>DeploymentFlow</Name>

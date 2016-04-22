@@ -41,23 +41,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AskCommand.cs" />
-    <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Commands\MessageCommand.cs" />
     <Compile Include="Commands\ShellCommand.cs" />
     <Compile Include="FlowStep.cs" />
-    <Compile Include="Interfaces\ICommand.cs" />
-    <Compile Include="Interfaces\IMessageSender.cs" />
-    <Compile Include="Interfaces\IWorkFlowProvider.cs" />
-    <Compile Include="Interfaces\IQuestion.cs" />
     <Compile Include="Commands\NullCommand.cs" />
+    <Compile Include="Interfaces\IWorkFlowProvider.cs" />
     <Compile Include="Interfaces\IWorkFlowProviderFactory.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response.cs" />
     <Compile Include="StepState.cs" />
     <Compile Include="WorkFlowProvider.cs" />
     <Compile Include="WorkFlowProviderFactory.cs" />
     <Compile Include="WorkFlowState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj">
+      <Project>{64ca7dd0-bb2f-46d7-bc4e-91db31a4e75d}</Project>
+      <Name>Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SkypeMessengerProvider\SkypeMessengerProvider.csproj">
+      <Project>{b20a01b9-59dd-4a09-ae5d-dd9a13675fc7}</Project>
+      <Name>SkypeMessengerProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

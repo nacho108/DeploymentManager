@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Contracts;
 using DeploymentFlow.Annotations;
 using DeploymentFlow.Interfaces;
 

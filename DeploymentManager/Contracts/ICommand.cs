@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace DeploymentFlow.Interfaces
+namespace Contracts
 {
     public interface ICommand: INotifyPropertyChanged
     {

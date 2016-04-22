@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using Contracts;
 using DeploymentFlow.Annotations;
 using DeploymentFlow.Interfaces;
 

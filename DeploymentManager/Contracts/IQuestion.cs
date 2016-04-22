@@ -1,4 +1,4 @@
-﻿namespace DeploymentFlow.Interfaces
+﻿namespace Contracts
 {
     public interface IQuestion
     {
