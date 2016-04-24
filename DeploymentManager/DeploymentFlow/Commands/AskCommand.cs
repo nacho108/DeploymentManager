@@ -18,19 +18,19 @@ namespace DeploymentFlow
             _question = question;
         }
 
-        public async Task<CommandResult> Execute()
+        public Task<CommandResult> Execute()
         {
             var a=_question.GetResponse();
             switch (a)
             {
                 case Response.Ok:
                     Output = "Ok";
-                    return new CommandResult(0,"Ok");
+                    return Task.Run(() =>new CommandResult(0, "Ok"));
                 case Response.Cancel:
                     Output = "Cancel";
-                    return new CommandResult(1, "Cancelled");
+                    return Task.Run(() => new CommandResult(1, "Cancelled"));
             }
-            return new CommandResult(0, "Cancelled");
+            return Task.Run(() => new CommandResult(0, "Cancelled"));
         }
 
         public string CommandDescription => "Question";

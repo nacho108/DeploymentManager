@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkypeMessengerProvider", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{64CA7DD0-BB2F-46D7-BC4E-91DB31A4E75D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCreator", "ScriptCreator\ScriptCreator.csproj", "{23C5D7DD-FE4D-46D8-9ACC-1015195038D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCreator.Tests", "ScriptCreator.Tests\ScriptCreator.Tests.csproj", "{CA0E957F-2ABD-4A7A-BB2F-B2F5E226C629}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{64CA7DD0-BB2F-46D7-BC4E-91DB31A4E75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64CA7DD0-BB2F-46D7-BC4E-91DB31A4E75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64CA7DD0-BB2F-46D7-BC4E-91DB31A4E75D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C5D7DD-FE4D-46D8-9ACC-1015195038D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C5D7DD-FE4D-46D8-9ACC-1015195038D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C5D7DD-FE4D-46D8-9ACC-1015195038D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C5D7DD-FE4D-46D8-9ACC-1015195038D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0E957F-2ABD-4A7A-BB2F-B2F5E226C629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0E957F-2ABD-4A7A-BB2F-B2F5E226C629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0E957F-2ABD-4A7A-BB2F-B2F5E226C629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0E957F-2ABD-4A7A-BB2F-B2F5E226C629}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
