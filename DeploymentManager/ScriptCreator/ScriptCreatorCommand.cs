@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ using ScriptCreator.Annotations;
 
 namespace ScriptCreator
 {
-    class ScriptCreatorCommand:ICommand
+    public class ScriptCreatorCommand:ICommand
     {
         private string[] _scriptList;
         private readonly string _databaseProjectPath;
@@ -30,13 +31,39 @@ namespace ScriptCreator
 
         public async Task<CommandResult> Execute()
         {
-            var header = File.ReadAllText("TV-UpdateTemplate-Header.sql");
-            var footer = File.ReadAllText("TV-UpdateTemplate-Footer.sql");
-            var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "\\Programmability", Depth.AllChilds);
-            Output += $"Total script: {scripts.Length}";
+            var header = File.ReadAllText("Templates\\TV-UpdateTemplate-Header.sql");
+            var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
+            var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
+            Output += $"Total scripts processed: {scripts.Length}";
             ReplaceQuotesWithDoubleQuotes(scripts);
-            
+            AddExecuteSql(scripts);
+            string totalScript=MergeAllScriptsTogether(scripts);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(header);
+            sb.Append(totalScript);
+            sb.Append(footer);
+            Debug.WriteLine(sb);
             return new CommandResult(0,"ok");
+        }
+
+        private void AddExecuteSql(string[] scripts)
+        {
+            string header = "\nEXEC sp_executesql N'";
+            for (int i = 0; i < scripts.Length; i++)
+            {
+
+                scripts[i] = header + scripts[i]+"\n'";
+            }
+        }
+
+        private string MergeAllScriptsTogether(string[] scripts)
+        {
+            StringBuilder sb=new StringBuilder();
+            for (int i = 0; i < scripts.Length; i++)
+            {
+                sb.Append(scripts[i]);
+            }
+            return sb.ToString();
         }
 
         private void ReplaceQuotesWithDoubleQuotes(string[] scripts)

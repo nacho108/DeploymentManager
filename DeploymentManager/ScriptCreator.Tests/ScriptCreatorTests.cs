@@ -9,9 +9,11 @@ namespace ScriptCreator.Tests
     public class ScriptCreatorTests
     {
         [TestMethod]
-        public async Task ScriptCreatorSsomehing()
+        public async Task ScriptCreatorSomething()
         {
-            
+            var sc = new ScriptCreatorCommand("C:\\Projects\\Testing\\Database\\Programmability\\dbo\\Tags", new ScriptProvider());
+            var a=await sc.Execute();
+            Debug.WriteLine("");
         }
     }
 }
