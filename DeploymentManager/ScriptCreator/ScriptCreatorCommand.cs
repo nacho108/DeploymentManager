@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts;
@@ -75,33 +71,16 @@ namespace ScriptCreator
 
         private void PutFunctionsInTheBeginning(string[] scripts)
         {
-            int loops = 0;
-            bool somethingWentWrong;
-            bool functionSwapped;
             int lastScriptSwapped = 0;
-            do
+            for (int i = lastScriptSwapped; i < scripts.Length; i++)
             {
-                somethingWentWrong = false;
-                functionSwapped = false;
-
-                for (int i = lastScriptSwapped; i < scripts.Length; i++)
+                if (scripts[i].IndexOf("CREATE FUNCTION", StringComparison.OrdinalIgnoreCase) != -1)
                 {
-                    if (scripts[i].IndexOf("CREATE FUNCTION", StringComparison.OrdinalIgnoreCase) != -1)
-                    {
-                        Output += $"function swapped index: {i}";
-                        Debug.WriteLine($"Swapped {i} {lastScriptSwapped}");
-                        SwapScripts(scripts, i, lastScriptSwapped);
-                        lastScriptSwapped++;
-                        functionSwapped = true;
-                    }
+                    Output += $"function swapped index: {i}";
+                    SwapScripts(scripts, i, lastScriptSwapped);
+                    lastScriptSwapped++;
                 }
-                loops++;
-                if (loops > scripts.Length)
-                {
-                    somethingWentWrong = true;
-                }
-            } while (functionSwapped && !somethingWentWrong);
-            if (somethingWentWrong) throw new OperationCanceledException("There were too many ocurrences of function swaping. Probably you should check this algorithm. Good luck!");
+            }
         }
 
         private void SwapScripts(string[] scripts, int origin, int destination)
@@ -110,7 +89,6 @@ namespace ScriptCreator
             scripts[origin] = scripts[destination];
             scripts[destination] = auxstringContainer;
         }
-
 
         private void AddExecuteSql(string[] scripts)
         {
