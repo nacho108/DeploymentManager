@@ -23,38 +23,47 @@ namespace ScriptCreator.Tests
         [TestMethod]
         public void Run()
         {
-            var parameters = GetAllParametersFromCommand("\n\tEXEC   [dbo].[fsfdsf]    EXEC  sp_executesql1   EXEC  sp_executesql2  EXEC  gfdgdfg3", "EXEC ", "sp_executesql");
+            var parameters = GetAllProceduresExecuted("\n\tEXEC   [dbo].[fsfdsf]    EXEC  sp_executesql   EXECute mongo  EXEC  1gfdgdfg3", "EXEC ", "sp_executesql");
             foreach (var p in parameters)
             {
                 Debug.WriteLine("*"+p+"*");
             }
         }
 
-        private IEnumerable<string> GetAllParametersFromCommand(string text, string command, string exclude)
+        private IEnumerable<string> GetAllProceduresExecuted(string text)
         {
-            Debug.WriteLine("length: "+text.Length);
             var lista=new List<string>();
             for (int i = 0; i < text.Length; i++)
             {
-                var indexExec = text.IndexOf(command, i,StringComparison.OrdinalIgnoreCase);
-                if ( indexExec == -1)
+                var indexExec = text.IndexOf("EXEC ", i,StringComparison.OrdinalIgnoreCase);
+                var indexExecute = text.IndexOf("EXECUTE ", i, StringComparison.OrdinalIgnoreCase);
+                if (indexExec == -1 && indexExecute == -1)
                 {
                     return lista;
                 }
-                var indexEndCommand = indexExec + command.Length;
-                var indexParameter = GetIndexNextWord(text, indexEndCommand);
+                int indexCommand;
+                if (indexExec == -1 || indexExecute == -1)
+                {
+                    indexCommand = Math.Max(indexExec, indexExecute);
+                }
+                else
+                {
+                    indexCommand = Math.Min(indexExec, indexExecute);
+                }
+                var indexParameter = GetIndexNextWord(text, indexCommand);
                 var indexNextSpace = text.IndexOf(" ", indexParameter, StringComparison.OrdinalIgnoreCase);
                 if (indexNextSpace == -1)
                 {
                     indexNextSpace = text.Length;
                 }
                 var lengthParameter = indexNextSpace - indexParameter;
-                Debug.WriteLine("-- {0} {1}", indexParameter, lengthParameter);
                 string parameter = text.Substring(indexParameter, lengthParameter);
                 parameter = parameter.Replace("[", "");
                 parameter = parameter.Replace("]", "");
-                lista.Add(parameter);
-                Debug.WriteLine(parameter);
+                if (parameter.ToLower() != "sp_executesql")
+                {
+                    lista.Add(parameter);
+                }
                 i = indexNextSpace;
             }
             return lista;
@@ -62,10 +71,15 @@ namespace ScriptCreator.Tests
 
         int GetIndexNextWord(string text, int startIndex)
         {
+            bool spaceFound = false;
             for (int i = startIndex; i < text.Length; i++)
             {
-                if (text[i] == ' ') continue;
-                return i;
+                if (text[i] == ' ')
+                {
+                    spaceFound = true;
+                    continue;
+                }
+                if (spaceFound) return i;
             }
             return -1;
         }
