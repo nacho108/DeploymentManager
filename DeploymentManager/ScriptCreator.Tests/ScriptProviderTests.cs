@@ -14,10 +14,11 @@ namespace ScriptCreator.Tests
             ScriptProvider sp=new ScriptProvider();
             var scripts=await sp.GetScripts("C:\\Projects\\Testing\\Database\\Programmability", Depth.AllChilds);
             Debug.WriteLine($"Number of scripts: {scripts.Length}");
-            foreach (var s in scripts)
-            {
-                Debug.WriteLine(s);
-            }
+            //foreach (var s in scripts)
+            //{
+            //    Debug.WriteLine("*********************************************************************");
+            //    Debug.WriteLine(s);
+            //}
         }
     }
 }
