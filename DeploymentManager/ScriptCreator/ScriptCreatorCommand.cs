@@ -15,16 +15,31 @@ namespace ScriptCreator
 {
     public class ScriptCreatorCommand:ICommand
     {
-        private string[] _scriptList;
         private readonly string _databaseProjectPath;
-        IScriptProvider _scriptProvider;
+        readonly IScriptProvider _scriptProvider;
+        private readonly string _requiredVersion;
+        private readonly int _mayorVersion;
+        private readonly int _minorVersion;
+        private readonly int _build;
+        private readonly int _revision;
         private string _output;
 
-        public ScriptCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider)
+        public ScriptCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider,
+            string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild, int newRevision)
         {
+            if (newMayorVersion < 1) throw new ArgumentException("newMayorVersion version should be >0");
+            if (newMinorVersion < 0) throw new ArgumentException("newMinorVersion version should be >=0");
+            if (newBuild < 0) throw new ArgumentException("newBuild should be >=0");
+            if (newRevision < 0) throw new ArgumentException("newRevision should be >=0");
             if (scriptProvider == null) throw new ArgumentNullException(nameof(scriptProvider));
+
             _databaseProjectPath = databaseProjectPath;
             _scriptProvider = scriptProvider;
+            _requiredVersion = requiredVersion;
+            _mayorVersion = newMayorVersion;
+            _minorVersion = newMinorVersion;
+            _build = newBuild;
+            _revision = newRevision;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -32,7 +47,13 @@ namespace ScriptCreator
         public async Task<CommandResult> Execute()
         {
             var header = File.ReadAllText("Templates\\TV-UpdateTemplate-Header.sql");
+            header = header.Replace("{REQUIRED VERSION}", _requiredVersion);
+            header = header.Replace("{NEW MAJOR VERSION}", _mayorVersion.ToString());
+            header = header.Replace("{NEW MINOR VERSION}", _minorVersion.ToString());
+            header = header.Replace("{NEW BUILD VERSION}", _build.ToString());
+            header = header.Replace("{NEW REVISION VERSION}", _revision.ToString());
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
+            
             var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
             Output += $"Total scripts processed: {scripts.Length}";
             ReplaceQuotesWithDoubleQuotes(scripts);

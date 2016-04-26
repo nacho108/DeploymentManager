@@ -11,7 +11,8 @@ namespace ScriptCreator.Tests
         [TestMethod]
         public async Task ScriptCreatorSomething()
         {
-            var sc = new ScriptCreatorCommand("C:\\Projects\\Testing\\Database\\Programmability\\dbo\\Tags", new ScriptProvider());
+            var sc = new ScriptCreatorCommand("C:\\Projects\\Testing\\Database\\Programmability", 
+                new ScriptProvider(),"1.0.0.0",5,6,7,8);
             var a=await sc.Execute();
             Debug.WriteLine("");
         }
