@@ -56,7 +56,7 @@ namespace ScriptCreator
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
             Output += "Getting scripts...\n";
             var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
-            Output += "Putting funcionts in the beginning...\n";
+            Output += "Putting functions in the beginning...\n";
             PutFunctionsInTheBeginning(scripts);
             Output += "Replacing single quotes with doubles...\n";
             ReplaceQuotesWithDoubleQuotes(scripts);
