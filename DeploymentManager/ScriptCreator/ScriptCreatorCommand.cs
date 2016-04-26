@@ -76,16 +76,20 @@ namespace ScriptCreator
         private void PutFunctionsInTheBeginning(string[] scripts)
         {
             int loops = 0;
-            bool somethingWentWrong=false;
-            bool functionSwapped = false;
+            bool somethingWentWrong;
+            bool functionSwapped;
             int lastScriptSwapped = 0;
             do
             {
-                for (int i = 0; i < scripts.Length; i++)
+                somethingWentWrong = false;
+                functionSwapped = false;
+
+                for (int i = lastScriptSwapped; i < scripts.Length; i++)
                 {
                     if (scripts[i].IndexOf("CREATE FUNCTION", StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         Output += $"function swapped index: {i}";
+                        Debug.WriteLine($"Swapped {i} {lastScriptSwapped}");
                         SwapScripts(scripts, i, lastScriptSwapped);
                         lastScriptSwapped++;
                         functionSwapped = true;
