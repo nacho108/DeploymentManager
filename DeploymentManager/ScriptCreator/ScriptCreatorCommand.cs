@@ -46,6 +46,7 @@ namespace ScriptCreator
 
         public async Task<CommandResult> Execute()
         {
+            Output += "Forming header...\n";
             var header = File.ReadAllText("Templates\\TV-UpdateTemplate-Header.sql");
             header = header.Replace("{REQUIRED VERSION}", _requiredVersion);
             header = header.Replace("{NEW MAJOR VERSION}", _mayorVersion.ToString());
@@ -53,17 +54,20 @@ namespace ScriptCreator
             header = header.Replace("{NEW BUILD VERSION}", _build.ToString());
             header = header.Replace("{NEW REVISION VERSION}", _revision.ToString());
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
-            
+            Output += "Getting scripts...\n";
             var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
-            Output += $"Total scripts processed: {scripts.Length}";
+            Output += "Replacing single quotes with doubles...\n";
             ReplaceQuotesWithDoubleQuotes(scripts);
+            Output += "Wrapping everything with executeSql...\n";
             AddExecuteSql(scripts);
-            string totalScript=MergeAllScriptsTogether(scripts);
+            Output += "Merging all scrits in one...\n";
+            string totalScript =MergeAllScriptsTogether(scripts);
             StringBuilder sb = new StringBuilder();
+            Output += "Adding header and footer...\n";
             sb.Append(header);
             sb.Append(totalScript);
             sb.Append(footer);
-            Debug.WriteLine(sb);
+            Output += $"Total scripts processed: {scripts.Length}";
             return new CommandResult(0,"ok");
         }
 
