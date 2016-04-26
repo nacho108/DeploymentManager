@@ -69,7 +69,7 @@ namespace ScriptCreator
 
         private void AddExecuteSql(string[] scripts)
         {
-            string header = "\nEXEC sp_executesql N'";
+            string header = "\nEXEC sp_executesql N'\n";
             for (int i = 0; i < scripts.Length; i++)
             {
 
