@@ -56,6 +56,8 @@ namespace ScriptCreator
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
             Output += "Getting scripts...\n";
             var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
+            Output += "Putting funcionts in the beginning...\n";
+            PutFunctionsInTheBeginning(scripts);
             Output += "Replacing single quotes with doubles...\n";
             ReplaceQuotesWithDoubleQuotes(scripts);
             Output += "Wrapping everything with executeSql...\n";
@@ -70,6 +72,41 @@ namespace ScriptCreator
             Output += $"Total scripts processed: {scripts.Length}";
             return new CommandResult(0,"ok");
         }
+
+        private void PutFunctionsInTheBeginning(string[] scripts)
+        {
+            int loops = 0;
+            bool somethingWentWrong=false;
+            bool functionSwapped = false;
+            int lastScriptSwapped = 0;
+            do
+            {
+                for (int i = 0; i < scripts.Length; i++)
+                {
+                    if (scripts[i].IndexOf("CREATE FUNCTION", StringComparison.OrdinalIgnoreCase) != -1)
+                    {
+                        Output += $"function swapped index: {i}";
+                        SwapScripts(scripts, i, lastScriptSwapped);
+                        lastScriptSwapped++;
+                        functionSwapped = true;
+                    }
+                }
+                loops++;
+                if (loops > scripts.Length)
+                {
+                    somethingWentWrong = true;
+                }
+            } while (functionSwapped && !somethingWentWrong);
+            if (somethingWentWrong) throw new OperationCanceledException("There were too many ocurrences of function swaping. Probably you should check this algorithm. Good luck!");
+        }
+
+        private void SwapScripts(string[] scripts, int origin, int destination)
+        {
+            string auxstringContainer = scripts[origin];
+            scripts[origin] = scripts[destination];
+            scripts[destination] = auxstringContainer;
+        }
+
 
         private void AddExecuteSql(string[] scripts)
         {
