@@ -23,7 +23,7 @@ namespace ScriptCreator.Tests
         [TestMethod]
         public void Run()
         {
-            var parameters = GetAllProceduresExecuted("\n\tEXEC   [dbo].[fsfdsf]    EXEC  sp_executesql   EXECute mongo  EXEC  1gfdgdfg3", "EXEC ", "sp_executesql");
+            var parameters = GetAllProceduresExecuted("\n\tEXEC   [dbo].[fsfdsf]    EXEC  sp_executesql   EXECute mongo  EXEC  1gfdgdfg3");
             foreach (var p in parameters)
             {
                 Debug.WriteLine("*"+p+"*");
