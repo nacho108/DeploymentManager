@@ -45,6 +45,7 @@
     <Compile Include="IScriptProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Script.cs" />
     <Compile Include="ScriptCreatorCommand.cs" />
     <Compile Include="ScriptProvider.cs" />
   </ItemGroup>

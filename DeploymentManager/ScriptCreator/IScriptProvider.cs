@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ScriptCreator
 {
     public interface IScriptProvider
     {
-        Task<string[]> GetScripts(string path, Depth depth);
+        Task<IEnumerable<ScriptContainer>> GetScripts(string path, Depth depth);
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,35 +55,42 @@ namespace ScriptCreator
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
             Output += "Getting scripts...\n";
             var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
-            Output += "Putting functions in the beginning...\n";
-            PutFunctionsInTheBeginning(scripts);
+            List<ScriptContainer> sc=scripts.ToList();
+            RemoveSchemaProcedures(sc);
             Output += "Replacing single quotes with doubles...\n";
-            ReplaceQuotesWithDoubleQuotes(scripts);
+            ReplaceQuotesWithDoubleQuotes(sc);
             Output += "Wrapping everything with executeSql...\n";
-            AddExecuteSql(scripts);
+            AddExecuteSql(sc);
             Output += "Merging all scrits in one...\n";
-            string totalScript =MergeAllScriptsTogether(scripts);
+            string totalScript =MergeAllScriptsTogether(sc);
             StringBuilder sb = new StringBuilder();
             Output += "Adding header and footer...\n";
             sb.Append(header);
             sb.Append(totalScript);
             sb.Append(footer);
-            Output += $"Total scripts processed: {scripts.Length}";
+            Debug.WriteLine(sb);
+            Output += $"Total scripts processed: {scripts.Count()}";
             return new CommandResult(0,"ok");
         }
 
-        private void PutFunctionsInTheBeginning(string[] scripts)
+        private void RemoveSchemaProcedures(List<ScriptContainer> scripts)
         {
-            int lastScriptSwapped = 0;
-            for (int i = lastScriptSwapped; i < scripts.Length; i++)
-            {
-                if (scripts[i].IndexOf("CREATE FUNCTION", StringComparison.OrdinalIgnoreCase) != -1)
-                {
-                    Output += $"function swapped index: {i}";
-                    SwapScripts(scripts, i, lastScriptSwapped);
-                    lastScriptSwapped++;
-                }
-            }
+            var r1 = scripts.Find(o => o.Name == "pri_SystemSchemaWriteLog.sql");
+            var r2 = scripts.Find(o => o.Name == "pub_SystemSchemaAddLogError.sql");
+            var r3 = scripts.Find(o => o.Name == "pub_SystemSchemaAddLogInfo.sql");
+            var r4 = scripts.Find(o => o.Name == "pub_SystemSchemaAddLogWarn.sql");
+            var r5 = scripts.Find(o => o.Name == "pub_SystemSchemaGetMaxVersion.sql");
+            var r6 = scripts.Find(o => o.Name == "pub_SystemSchemaGetVersion.sql");
+            var r7 = scripts.Find(o => o.Name == "pub_SystemSchemaIsVersionApplied.sql");
+            var r8 = scripts.Find(o => o.Name == "pub_SystemSchemaSetVersion.sql");
+            scripts.Remove(r1);
+            scripts.Remove(r2);
+            scripts.Remove(r3);
+            scripts.Remove(r4);
+            scripts.Remove(r5);
+            scripts.Remove(r6);
+            scripts.Remove(r7);
+            scripts.Remove(r8);
         }
 
         private void SwapScripts(string[] scripts, int origin, int destination)
@@ -90,31 +100,34 @@ namespace ScriptCreator
             scripts[destination] = auxstringContainer;
         }
 
-        private void AddExecuteSql(string[] scripts)
+        private void AddExecuteSql(IEnumerable<ScriptContainer> scripts)
         {
             string header = "\nEXEC sp_executesql N'\n";
-            for (int i = 0; i < scripts.Length; i++)
+            foreach (var script in scripts)
             {
+                script.ScriptBody = header + script.ScriptBody + "\n'";
 
-                scripts[i] = header + scripts[i]+"\n'";
             }
         }
 
-        private string MergeAllScriptsTogether(string[] scripts)
+        private string MergeAllScriptsTogether(IEnumerable<ScriptContainer> scripts)
         {
             StringBuilder sb=new StringBuilder();
-            for (int i = 0; i < scripts.Length; i++)
+            List<ScriptContainer> scl=new List<ScriptContainer>(scripts.ToArray());
+            List<ScriptContainer> orderedScript = scl.OrderBy(o => o.Order).ToList();
+
+            for (int i = 0; i < orderedScript.Count; i++)
             {
-                sb.Append(scripts[i]);
+                sb.Append(orderedScript[i].ScriptBody);
             }
             return sb.ToString();
         }
 
-        private void ReplaceQuotesWithDoubleQuotes(string[] scripts)
+        private void ReplaceQuotesWithDoubleQuotes(IEnumerable<ScriptContainer> scripts)
         {
-            for (int i = 0; i < scripts.Length; i++)
+            foreach (var scriptContainer in scripts)
             {
-                scripts[i] = scripts[i].Replace("'", "''");
+                scriptContainer.ScriptBody = scriptContainer.ScriptBody.Replace("'", "''");
             }
         }
 

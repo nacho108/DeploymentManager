@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,7 +14,7 @@ namespace ScriptCreator.Tests
         {
             ScriptProvider sp=new ScriptProvider();
             var scripts=await sp.GetScripts("C:\\Projects\\Testing\\Database\\Programmability", Depth.AllChilds);
-            Debug.WriteLine($"Number of scripts: {scripts.Length}");
+            Debug.WriteLine($"Number of scripts: {scripts.Count()}");
             //foreach (var s in scripts)
             //{
             //    Debug.WriteLine("*********************************************************************");
