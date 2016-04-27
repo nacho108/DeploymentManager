@@ -20,9 +20,5 @@ namespace ScriptCreator.Tests
             Debug.WriteLine(a.Output);
         }
 
-        [TestMethod]
-        public void Run()
-        {
-        }
     }
 }

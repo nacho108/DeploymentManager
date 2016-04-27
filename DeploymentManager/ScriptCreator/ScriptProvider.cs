@@ -23,11 +23,14 @@ namespace ScriptCreator
                 int defaultOrder=100;
                 switch (scriptType)
                 {
-                    case ScriptType.CustomType:
+                    case ScriptType.Schema:
                         defaultOrder = 100;
                         break;
+                    case ScriptType.CustomType:
+                        defaultOrder = 300;
+                        break;
                     case ScriptType.Function:
-                        defaultOrder = 500;
+                        defaultOrder = 700;
                         break;
                     case ScriptType.StoreProcedure:
                         defaultOrder = 1000;
@@ -62,8 +65,10 @@ namespace ScriptCreator
         {
             var indexFunction = scriptBody.IndexOf("CREATE FUNCTION", 0, StringComparison.OrdinalIgnoreCase);
             var indexType = scriptBody.IndexOf("CREATE TYPE", 0, StringComparison.OrdinalIgnoreCase);
+            var indexSchema = scriptBody.IndexOf("CREATE SCHEMA", 0, StringComparison.OrdinalIgnoreCase);
             if (indexFunction >= 0 ) return ScriptType.Function;
             if (indexType >= 0) return ScriptType.CustomType;
+            if (indexSchema >= 0) return ScriptType.Schema;
             return ScriptType.StoreProcedure;
         }
     }

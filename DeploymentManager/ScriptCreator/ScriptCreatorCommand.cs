@@ -68,7 +68,6 @@ namespace ScriptCreator
             sb.Append(header);
             sb.Append(totalScript);
             sb.Append(footer);
-            Debug.WriteLine(sb);
             Output += $"Total scripts processed: {scripts.Count()}";
             return new CommandResult(0,"ok");
         }
@@ -83,6 +82,7 @@ namespace ScriptCreator
             var r6 = scripts.Find(o => o.Name == "pub_SystemSchemaGetVersion.sql");
             var r7 = scripts.Find(o => o.Name == "pub_SystemSchemaIsVersionApplied.sql");
             var r8 = scripts.Find(o => o.Name == "pub_SystemSchemaSetVersion.sql");
+            var r9 = scripts.Find(o => o.Name == "security.sql");
             scripts.Remove(r1);
             scripts.Remove(r2);
             scripts.Remove(r3);
@@ -91,6 +91,7 @@ namespace ScriptCreator
             scripts.Remove(r6);
             scripts.Remove(r7);
             scripts.Remove(r8);
+            scripts.Remove(r9);
         }
 
         private void SwapScripts(string[] scripts, int origin, int destination)

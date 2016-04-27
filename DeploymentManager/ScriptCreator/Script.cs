@@ -14,6 +14,7 @@ namespace ScriptCreator
     {
         StoreProcedure,
         Function,
-        CustomType
+        CustomType,
+        Schema
     }
 }
