@@ -80,9 +80,9 @@ namespace ScriptCreator
             var r4 = scripts.Find(o => o.Name == "pub_SystemSchemaAddLogWarn.sql");
             var r5 = scripts.Find(o => o.Name == "pub_SystemSchemaGetMaxVersion.sql");
             var r6 = scripts.Find(o => o.Name == "pub_SystemSchemaGetVersion.sql");
-            var r7 = scripts.Find(o => o.Name == "pub_SystemSchemaIsVersionApplied.sql");
-            var r8 = scripts.Find(o => o.Name == "pub_SystemSchemaSetVersion.sql");
-            var r9 = scripts.Find(o => o.Name == "security.sql");
+            var r7 = scripts.Find(o => o.Name == "pub_SystemSchemaSetVersion.sql");
+            var r8 = scripts.Find(o => o.Name == "pub_SystemSchemaIsVersionApplied.sql"); //function
+
             scripts.Remove(r1);
             scripts.Remove(r2);
             scripts.Remove(r3);
@@ -91,7 +91,6 @@ namespace ScriptCreator
             scripts.Remove(r6);
             scripts.Remove(r7);
             scripts.Remove(r8);
-            scripts.Remove(r9);
         }
 
         private void SwapScripts(string[] scripts, int origin, int destination)
