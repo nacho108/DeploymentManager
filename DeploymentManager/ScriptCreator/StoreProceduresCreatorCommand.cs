@@ -12,7 +12,7 @@ using ScriptCreator.Annotations;
 
 namespace ScriptCreator
 {
-    public class ScriptCreatorCommand:ICommand
+    public class StoreProceduresCreatorCommand:ICommand
     {
         private readonly string _databaseProjectPath;
         readonly IScriptProvider _scriptProvider;
@@ -23,7 +23,7 @@ namespace ScriptCreator
         private readonly int _revision;
         private string _output;
 
-        public ScriptCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider,
+        public StoreProceduresCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider,
             string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild, int newRevision)
         {
             if (newMayorVersion < 1) throw new ArgumentException("newMayorVersion version should be >0");
@@ -53,6 +53,8 @@ namespace ScriptCreator
             header = header.Replace("{NEW BUILD VERSION}", _build.ToString());
             header = header.Replace("{NEW REVISION VERSION}", _revision.ToString());
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
+            Output += "Getting script for deleting currents...\n";
+            var deleteCurrent = File.ReadAllText("Templates\\DeleteScripts.sql");
             Output += "Getting scripts...\n";
             var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
             List<ScriptContainer> sc=scripts.ToList();
@@ -66,9 +68,12 @@ namespace ScriptCreator
             StringBuilder sb = new StringBuilder();
             Output += "Adding header and footer...\n";
             sb.Append(header);
+            sb.Append(deleteCurrent);
             sb.Append(totalScript);
             sb.Append(footer);
             Output += $"Total scripts processed: {scripts.Count()}";
+            File.WriteAllText("NewScripts.sql", sb.ToString());
+            Debug.WriteLine(sb);
             return new CommandResult(0,"ok");
         }
 
@@ -91,13 +96,6 @@ namespace ScriptCreator
             scripts.Remove(r6);
             scripts.Remove(r7);
             scripts.Remove(r8);
-        }
-
-        private void SwapScripts(string[] scripts, int origin, int destination)
-        {
-            string auxstringContainer = scripts[origin];
-            scripts[origin] = scripts[destination];
-            scripts[destination] = auxstringContainer;
         }
 
         private void AddExecuteSql(IEnumerable<ScriptContainer> scripts)
@@ -131,7 +129,7 @@ namespace ScriptCreator
             }
         }
 
-        public string CommandDescription { get { return "Creating resultin scripts"; } }
+        public string CommandDescription { get { return "Creating resulting scripts"; } }
 
         public string Output
         {
