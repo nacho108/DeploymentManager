@@ -45,7 +45,6 @@
     <Compile Include="IScriptProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchemaModifCreatorCommand.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="StoreProceduresCreatorCommand.cs" />
     <Compile Include="ScriptProvider.cs" />
@@ -57,6 +56,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\DeleteScripts.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Templates\TV-UpdateTemplate-Footer.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
