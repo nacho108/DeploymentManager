@@ -55,29 +55,33 @@ namespace ScriptCreator
             var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
             Output += "Getting script for deleting currents...\n";
             var deleteCurrent = File.ReadAllText("Templates\\DeleteScripts.sql");
-            Output += "Getting scripts...\n";
-            var scripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "", Depth.AllChilds);
-            List<ScriptContainer> sc=scripts.ToList();
-            RemoveSchemaProcedures(sc);
-            Output += "Replacing single quotes with doubles...\n";
-            ReplaceQuotesWithDoubleQuotes(sc);
-            Output += "Wrapping everything with executeSql...\n";
-            AddExecuteSql(sc);
-            Output += "Merging all scrits in one...\n";
-            string totalScript =MergeAllScriptsTogether(sc);
+            Output += "Getting programmability scripts...\n";
+            var programScripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "\\Programmability", Depth.AllChilds);
+            Output += "Getting current schema change scripts...\n";
+            var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\CurrentScripts", Depth.AllChilds);
+            List<ScriptContainer> progScripts=programScripts.ToList();
+            List<ScriptContainer> schemasScripts = schemaScripts.ToList();
             StringBuilder sb = new StringBuilder();
+
+            RemoveVersionControlProcedures(progScripts);
+            Output += "Replacing single quotes with doubles...\n";
+            ReplaceQuotesWithDoubleQuotes(progScripts);
+            Output += "Wrapping everything with executeSql...\n";
+            AddExecuteSql(progScripts);
+            Output += "Merging all scrits in one...\n";
+            string totalScript =MergeAllScriptsTogether(progScripts);
             Output += "Adding header and footer...\n";
             sb.Append(header);
             sb.Append(deleteCurrent);
             sb.Append(totalScript);
             sb.Append(footer);
-            Output += $"Total scripts processed: {scripts.Count()}";
+            Output += $"Total scripts processed: {progScripts.Count()}";
             File.WriteAllText("NewScripts.sql", sb.ToString());
             Debug.WriteLine(sb);
             return new CommandResult(0,"ok");
         }
 
-        private void RemoveSchemaProcedures(List<ScriptContainer> scripts)
+        private void RemoveVersionControlProcedures(List<ScriptContainer> scripts)
         {
             var r1 = scripts.Find(o => o.Name == "pri_SystemSchemaWriteLog.sql");
             var r2 = scripts.Find(o => o.Name == "pub_SystemSchemaAddLogError.sql");
