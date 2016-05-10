@@ -22,6 +22,8 @@ namespace ScriptCreator
         private readonly int _build;
         private readonly int _revision;
         private string _output;
+        private string _header;
+        private string _footer;
 
         public StoreProceduresCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider,
             string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild, int newRevision)
@@ -39,20 +41,32 @@ namespace ScriptCreator
             _minorVersion = newMinorVersion;
             _build = newBuild;
             _revision = newRevision;
+            LoadTemplatesFromDisk();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private void LoadTemplatesFromDisk()
+        {
+            _header=  File.ReadAllText("Templates\\TV-UpdateTemplate-Header.sql");
+            _footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
+        }
+
+        private string GetHeaderWithVersion(string requiredVersion, int mayorVersion, int minorVersion, int build)
+        {
+            string filledHeader= _header.Replace("{REQUIRED VERSION}", _requiredVersion);
+            filledHeader = filledHeader.Replace("{NEW MAJOR VERSION}", _mayorVersion.ToString());
+            filledHeader = filledHeader.Replace("{NEW MINOR VERSION}", _minorVersion.ToString());
+            filledHeader = filledHeader.Replace("{NEW BUILD VERSION}", _build.ToString());
+            filledHeader = filledHeader.Replace("{NEW REVISION VERSION}", _revision.ToString());
+
+            return filledHeader;
+        }
+
         public async Task<CommandResult> Execute()
         {
             Output += "Forming header...\n";
-            var header = File.ReadAllText("Templates\\TV-UpdateTemplate-Header.sql");
-            header = header.Replace("{REQUIRED VERSION}", _requiredVersion);
-            header = header.Replace("{NEW MAJOR VERSION}", _mayorVersion.ToString());
-            header = header.Replace("{NEW MINOR VERSION}", _minorVersion.ToString());
-            header = header.Replace("{NEW BUILD VERSION}", _build.ToString());
-            header = header.Replace("{NEW REVISION VERSION}", _revision.ToString());
-            var footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
+            var header = GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build);
             Output += "Getting script for deleting currents...\n";
             var deleteCurrent = File.ReadAllText("Templates\\DeleteScripts.sql");
             Output += "Getting programmability scripts...\n";
@@ -61,6 +75,7 @@ namespace ScriptCreator
             var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\CurrentScripts", Depth.AllChilds);
             List<ScriptContainer> progScripts=programScripts.ToList();
             List<ScriptContainer> schemasScripts = schemaScripts.ToList();
+
             StringBuilder sb = new StringBuilder();
 
             RemoveVersionControlProcedures(progScripts);
@@ -74,7 +89,7 @@ namespace ScriptCreator
             sb.Append(header);
             sb.Append(deleteCurrent);
             sb.Append(totalScript);
-            sb.Append(footer);
+            sb.Append(_footer);
             Output += $"Total scripts processed: {progScripts.Count()}";
             File.WriteAllText("NewScripts.sql", sb.ToString());
             Debug.WriteLine(sb);
