@@ -65,19 +65,19 @@ namespace ScriptCreator
 
         public async Task<CommandResult> Execute()
         {
+            StringBuilder sb = new StringBuilder();
             Output += "Forming header...\n";
             var header = GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build);
+            Output += "Getting current schema change scripts...\n";
+            var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\SchemaChangeScriptsCurrent", Depth.AllChilds);
+            List<ScriptContainer> schemasScripts = schemaScripts.ToList();
+
+            // Preparing store procedures
             Output += "Getting script for deleting currents...\n";
             var deleteCurrent = File.ReadAllText("Templates\\DeleteScripts.sql");
             Output += "Getting programmability scripts...\n";
-            var programScripts = await  _scriptProvider.GetScripts(_databaseProjectPath + "\\Programmability", Depth.AllChilds);
-            Output += "Getting current schema change scripts...\n";
-            var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\CurrentScripts", Depth.AllChilds);
-            List<ScriptContainer> progScripts=programScripts.ToList();
-            List<ScriptContainer> schemasScripts = schemaScripts.ToList();
-
-            StringBuilder sb = new StringBuilder();
-
+            var programScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\Programmability", Depth.AllChilds);
+            List<ScriptContainer> progScripts = programScripts.ToList();
             RemoveVersionControlProcedures(progScripts);
             Output += "Replacing single quotes with doubles...\n";
             ReplaceQuotesWithDoubleQuotes(progScripts);
