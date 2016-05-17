@@ -15,7 +15,7 @@ namespace ScriptCreator.Tests
         public async Task ScriptCreatorSomething()
         {
             var sc = new StoreProceduresCreatorCommand("C:\\Projects\\Testing\\Database", 
-                new ScriptProvider(),"1.0.0.0",5,6,7,8);
+                new ScriptProvider(),"1.0.0.0",5,6,7,0);
             var a=await sc.Execute();
             Debug.WriteLine(a.Output);
         }

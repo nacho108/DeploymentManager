@@ -16,10 +16,10 @@ namespace ScriptCreator
     {
         private readonly string _databaseProjectPath;
         readonly IScriptProvider _scriptProvider;
-        private readonly string _requiredVersion;
+        private  string _requiredVersion;
         private readonly int _mayorVersion;
         private readonly int _minorVersion;
-        private readonly int _build;
+        private  int _build;
         private readonly int _revision;
         private string _output;
         private string _header;
@@ -65,19 +65,53 @@ namespace ScriptCreator
 
         public async Task<CommandResult> Execute()
         {
+            // Schema changes and data migration
             StringBuilder sb = new StringBuilder();
             Output += "Forming header...\n";
             var header = GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build);
             Output += "Getting current schema change scripts...\n";
             var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\SchemaChangeScriptsCurrent", Depth.AllChilds);
             List<ScriptContainer> schemasScripts = schemaScripts.ToList();
+            if (schemasScripts.Count > 0)
+            {
+                sb.Append("/*\n");
+                sb.Append("****************************************************** \n");
+                sb.Append("*        SCHEMA CHANGES & DATA MIGRATION             * \n");
+                sb.Append("****************************************************** \n\n");
+                sb.Append("Scripts found: " + schemasScripts.Count + "\n\n");
+                sb.Append("*/\n");
+                sb.Append("PRINT '***** Deploying schema changes/data migrations...' \n\n");
 
-            // Preparing store procedures
-            Output += "Getting script for deleting currents...\n";
-            var deleteCurrent = File.ReadAllText("Templates\\DeleteScripts.sql");
+                foreach (var scriptContainer in schemasScripts)
+                {
+                    header = GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build);
+                    sb.Append(header);
+                    sb.Append(scriptContainer.ScriptBody);
+                    sb.Append(_footer);
+                    sb.Append("\n /* *************************************************************************** /* \n\n");
+                    _requiredVersion = _mayorVersion + "." + _minorVersion + "." + _build + ".0";
+                    _build++;
+                }
+            }
+            else
+            {
+                sb.Append("/* *********************   No schema changes or data migration found. /* \n ");
+            }
+
             Output += "Getting programmability scripts...\n";
             var programScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\Programmability", Depth.AllChilds);
             List<ScriptContainer> progScripts = programScripts.ToList();
+            sb.Append("/*\n");
+            sb.Append("****************************************************** \n");
+            sb.Append("*        STORE PROCEDURES/TYPES/FUNCTIONS            * \n");
+            sb.Append("****************************************************** \n\n");
+            sb.Append("Scripts found: " + progScripts.Count + "\n\n");
+            sb.Append("*/\n");
+            sb.Append("PRINT '***** Deploying Store procedures, types and functions...' \n\n");
+            
+            // Preparing store procedures
+            Output += "Getting script for deleting currents...\n";
+            var deleteCurrent = File.ReadAllText("Templates\\DeleteScripts.sql");
             RemoveVersionControlProcedures(progScripts);
             Output += "Replacing single quotes with doubles...\n";
             ReplaceQuotesWithDoubleQuotes(progScripts);
@@ -91,7 +125,7 @@ namespace ScriptCreator
             sb.Append(totalScript);
             sb.Append(_footer);
             Output += $"Total scripts processed: {progScripts.Count()}";
-            File.WriteAllText("NewScripts.sql", sb.ToString());
+            File.WriteAllText(_databaseProjectPath + "\\Updates\\"+"NewScripts.sql", sb.ToString());
             Debug.WriteLine(sb);
             return new CommandResult(0,"ok");
         }
@@ -136,6 +170,8 @@ namespace ScriptCreator
             for (int i = 0; i < orderedScript.Count; i++)
             {
                 sb.Append(orderedScript[i].ScriptBody);
+                sb.Append("\n /* *************************************************************************** /* \n\n");
+
             }
             return sb.ToString();
         }
