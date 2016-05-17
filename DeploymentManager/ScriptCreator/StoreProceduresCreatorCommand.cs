@@ -75,9 +75,9 @@ namespace ScriptCreator
             if (schemasScripts.Count > 0)
             {
                 sb.Append("/*\n");
-                sb.Append("****************************************************** \n");
-                sb.Append("*        SCHEMA CHANGES & DATA MIGRATION             * \n");
-                sb.Append("****************************************************** \n\n");
+                sb.Append("******************************************************************************************** \n");
+                sb.Append("*        SCHEMA CHANGES & DATA MIGRATION                                                   * \n");
+                sb.Append("******************************************************************************************** \n");
                 sb.Append("Scripts found: " + schemasScripts.Count + "\n\n");
                 sb.Append("*/\n");
                 sb.Append("PRINT '***** Deploying schema changes/data migrations...' \n\n");
@@ -88,23 +88,23 @@ namespace ScriptCreator
                     sb.Append(header);
                     sb.Append(scriptContainer.ScriptBody);
                     sb.Append(_footer);
-                    sb.Append("\n /* *************************************************************************** /* \n\n");
+                    sb.Append("\n/* *************************************************************************** /* \n\n");
                     _requiredVersion = _mayorVersion + "." + _minorVersion + "." + _build + ".0";
                     _build++;
                 }
             }
             else
             {
-                sb.Append("/* *********************   No schema changes or data migration found. /* \n ");
+                sb.Append("/* *********************   No schema changes or data migration found. */ \n ");
             }
 
             Output += "Getting programmability scripts...\n";
             var programScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\Programmability", Depth.AllChilds);
             List<ScriptContainer> progScripts = programScripts.ToList();
             sb.Append("/*\n");
-            sb.Append("****************************************************** \n");
-            sb.Append("*        STORE PROCEDURES/TYPES/FUNCTIONS            * \n");
-            sb.Append("****************************************************** \n\n");
+            sb.Append("**************************************************************************************** \n");
+            sb.Append("*        STORE PROCEDURES/TYPES/FUNCTIONS                                              * \n");
+            sb.Append("**************************************************************************************** \n");
             sb.Append("Scripts found: " + progScripts.Count + "\n\n");
             sb.Append("*/\n");
             sb.Append("PRINT '***** Deploying Store procedures, types and functions...' \n\n");
@@ -170,7 +170,7 @@ namespace ScriptCreator
             for (int i = 0; i < orderedScript.Count; i++)
             {
                 sb.Append(orderedScript[i].ScriptBody);
-                sb.Append("\n /* *************************************************************************** /* \n\n");
+                sb.Append("\n /* *************************************************************************** */ \n\n");
 
             }
             return sb.ToString();
