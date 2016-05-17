@@ -120,7 +120,7 @@ namespace ScriptCreator
             Output += "Merging all scrits in one...\n";
             string totalScript =MergeAllScriptsTogether(progScripts);
             Output += "Adding header and footer...\n";
-            sb.Append(header);
+            sb.Append(GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build));
             sb.Append(deleteCurrent);
             sb.Append(totalScript);
             sb.Append(_footer);
