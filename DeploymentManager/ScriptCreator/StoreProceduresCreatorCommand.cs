@@ -121,7 +121,9 @@ namespace ScriptCreator
             string totalScript =MergeAllScriptsTogether(progScripts);
             Output += "Adding header and footer...\n";
             sb.Append(GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build));
+            sb.Append("\n--******* Delete all procedures/functions and custom types \n\n");
             sb.Append(deleteCurrent);
+            sb.Append("\n--******* Re-deploy all procedures/functions and custom types \n\n");
             sb.Append(totalScript);
             sb.Append(_footer);
             Output += $"Total scripts processed: {progScripts.Count()}";

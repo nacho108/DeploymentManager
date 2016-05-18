@@ -58,6 +58,10 @@
       <Project>{64ca7dd0-bb2f-46d7-bc4e-91db31a4e75d}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScriptCreator\ScriptCreator.csproj">
+      <Project>{23c5d7dd-fe4d-46d8-9acc-1015195038d6}</Project>
+      <Name>ScriptCreator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SkypeMessengerProvider\SkypeMessengerProvider.csproj">
       <Project>{b20a01b9-59dd-4a09-ae5d-dd9a13675fc7}</Project>
       <Name>SkypeMessengerProvider</Name>
