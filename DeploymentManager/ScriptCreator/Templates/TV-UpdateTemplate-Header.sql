@@ -1,4 +1,4 @@
-USE [TrueViewEx];
+USE [TrueView];
 GO
 
 /*
