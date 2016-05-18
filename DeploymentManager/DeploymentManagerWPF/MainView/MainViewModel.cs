@@ -30,6 +30,11 @@ namespace DeploymentManager.MainView
             }
         }
 
+        public string RequiredVersion { get; set; }
+        public string InitialMayorVersion { get; set; }
+        public string InitialMinorVersion { get; set; }
+        public string InitialBuildVersion { get; set; }
+
         public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory)
         {
             _workFlowProviderFactory = workFlowProviderFactory;
@@ -37,6 +42,10 @@ namespace DeploymentManager.MainView
             FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
             StartCommand =new RelayCommand(async o=> { await FlowProvider.StartWorkFlow(); });
             CreateWorkflowCommand = new RelayCommand(CreateWorkflow);
+            RequiredVersion = "1.1.0.0";
+            InitialMayorVersion = "1";
+            InitialMinorVersion = "1";
+            InitialBuildVersion = "20";
         }
 
         private void CreateWorkflow(object obj)

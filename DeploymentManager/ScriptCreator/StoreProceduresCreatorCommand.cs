@@ -127,7 +127,6 @@ namespace ScriptCreator
             sb.Append(totalScript);
             sb.Append(_footer);
             Output += $"Total scripts processed: {progScripts.Count()}";
-            
             string lastVersion = _mayorVersion + "." + _minorVersion.ToString("00") + "." + _build.ToString("000");
             File.WriteAllText(_databaseProjectPath + "\\Updates\\"+ "TV - "+ lastVersion+".000.sql", sb.ToString());
             Debug.WriteLine(sb);
