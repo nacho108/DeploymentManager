@@ -12,7 +12,7 @@ namespace DeploymentManager
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             WorkFlowProviderFactory workFlowProviderFactory = new WorkFlowProviderFactory();
-            MainViewModel mainviewModel = new MainViewModel(workFlowProviderFactory);
+            MainViewModel mainviewModel = new MainViewModel(workFlowProviderFactory, new WPFMessageProvider());
             MainWindow mw = new MainWindow() { DataContext = mainviewModel };
             mw.Show();
         }

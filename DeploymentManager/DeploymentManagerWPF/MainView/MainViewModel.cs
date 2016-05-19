@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Contracts;
 using DeploymentFlow;
 using DeploymentFlow.Interfaces;
 using DeploymentManager.Annotations;
@@ -12,6 +14,7 @@ namespace DeploymentManager.MainView
     internal class MainViewModel:INotifyPropertyChanged
     {
         private readonly IWorkFlowProviderFactory _workFlowProviderFactory;
+        private readonly IMessageProvider _messageProvider;
         private FlowStepVm _stepSelected;
         private string _selectedStepOutput;
         private string _selectedDescription;
@@ -35,11 +38,12 @@ namespace DeploymentManager.MainView
         public string InitialMinorVersion { get; set; }
         public string InitialBuildVersion { get; set; }
 
-        public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory)
+        public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory, IMessageProvider messageProvider)
         {
             _workFlowProviderFactory = workFlowProviderFactory;
-            FlowProvider = _workFlowProviderFactory.CreateWorkFlow();
-            FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
+            _messageProvider = messageProvider;
+            //FlowProvider = _workFlowProviderFactory.CreateWorkFlow();
+            //FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
             StartCommand =new RelayCommand(async o=> { await FlowProvider.StartWorkFlow(); });
             CreateWorkflowCommand = new RelayCommand(CreateWorkflow);
             RequiredVersion = "1.1.0.0";
@@ -50,7 +54,25 @@ namespace DeploymentManager.MainView
 
         private void CreateWorkflow(object obj)
         {
-            FlowProvider = _workFlowProviderFactory.CreateWorkFlow();
+            int initialMayorVersionInt, initialMinorVersionInt, initialBuildVersionInt;
+
+            if (!int.TryParse(InitialMayorVersion, out initialMayorVersionInt))
+            {
+                _messageProvider.ShowMessage("It was not possible to Parse Initial Mayor Version");
+                return;
+            }
+            if (!int.TryParse(InitialMinorVersion, out initialMinorVersionInt))
+            {
+                _messageProvider.ShowMessage("It was not possible to Parse Initial minor Version");
+                return;
+            }
+            if (!int.TryParse(InitialBuildVersion, out initialBuildVersionInt))
+            {
+                _messageProvider.ShowMessage("It was not possible to Parse Initial build Version");
+                return;
+            }
+
+            FlowProvider = _workFlowProviderFactory.CreateWorkFlow(RequiredVersion, initialMayorVersionInt, initialMinorVersionInt, initialBuildVersionInt);
         }
 
         public string SelectedDescription

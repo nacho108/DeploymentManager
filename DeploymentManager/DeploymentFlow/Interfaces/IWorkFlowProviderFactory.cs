@@ -2,6 +2,6 @@
 {
     public interface IWorkFlowProviderFactory
     {
-        WorkFlowProvider CreateWorkFlow();
+        WorkFlowProvider CreateWorkFlow(string requiredVersion, int mayorVersion, int minorVersion, int build);
     }
 }
