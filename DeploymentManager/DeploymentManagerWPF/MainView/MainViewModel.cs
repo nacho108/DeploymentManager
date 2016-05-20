@@ -38,7 +38,7 @@ namespace DeploymentManager.MainView
         public string InitialMinorVersion { get; set; }
         public string InitialBuildVersion { get; set; }
 
-        public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory, IMessageProvider messageProvider)
+        public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory, IMessageProvider messageProvider, string databaseProjectPath)
         {
             _workFlowProviderFactory = workFlowProviderFactory;
             _messageProvider = messageProvider;

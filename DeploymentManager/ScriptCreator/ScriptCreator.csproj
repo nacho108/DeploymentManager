@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurrentVersion.cs" />
+    <Compile Include="CurrentVersionProvider.cs" />
     <Compile Include="Depth.cs" />
+    <Compile Include="ICurrentVersionProvider.cs" />
     <Compile Include="IScriptProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
