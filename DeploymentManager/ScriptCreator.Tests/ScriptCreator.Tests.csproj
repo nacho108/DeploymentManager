@@ -44,6 +44,10 @@
       <HintPath>..\packages\FluentAssertions.4.4.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -61,6 +65,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CurrentVersionProviderTests.cs" />
+    <Compile Include="CurrentVersionWriterTests.cs" />
     <Compile Include="ScriptCreatorTests.cs" />
     <Compile Include="ScriptProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

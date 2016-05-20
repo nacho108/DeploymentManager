@@ -2,6 +2,7 @@
 using DeploymentFlow;
 using DeploymentManager.MainView;
 using System.Configuration;
+using ScriptCreator;
 
 namespace DeploymentManager
 {
@@ -21,10 +22,10 @@ namespace DeploymentManager
                 throw new ConfigurationErrorsException(
                     "The config.app should have repositoryPath, solutionPath and databaseProjectPath settings to be able to work.");
             }
-
+            var currentVersionProvider=new CurrentVersionProvider(databaseProjectPath);
             WorkFlowProviderFactory workFlowProviderFactory = new WorkFlowProviderFactory(repositoryPath, solutionPath, databaseProjectPath);
-            MainViewModel mainviewModel = new MainViewModel(workFlowProviderFactory, new WPFMessageProvider(), databaseProjectPath);
-            MainWindow mw = new MainWindow() { DataContext = mainviewModel };
+            MainViewModel mainviewModel = new MainViewModel(workFlowProviderFactory, new WPFMessageProvider(),  currentVersionProvider);
+            MainWindow mw = new MainWindow() {DataContext = mainviewModel};
             mw.Show();
         }
     }

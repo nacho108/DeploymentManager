@@ -8,6 +8,7 @@ using Contracts;
 using DeploymentFlow;
 using DeploymentFlow.Interfaces;
 using DeploymentManager.Annotations;
+using ScriptCreator;
 
 namespace DeploymentManager.MainView
 {
@@ -15,6 +16,7 @@ namespace DeploymentManager.MainView
     {
         private readonly IWorkFlowProviderFactory _workFlowProviderFactory;
         private readonly IMessageProvider _messageProvider;
+        private readonly ICurrentVersionProvider _currentVersionProvider;
         private FlowStepVm _stepSelected;
         private string _selectedStepOutput;
         private string _selectedDescription;
@@ -38,18 +40,22 @@ namespace DeploymentManager.MainView
         public string InitialMinorVersion { get; set; }
         public string InitialBuildVersion { get; set; }
 
-        public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory, IMessageProvider messageProvider, string databaseProjectPath)
+        public MainViewModel(IWorkFlowProviderFactory workFlowProviderFactory, IMessageProvider messageProvider,
+            [DeploymentFlow.Annotations.NotNull] ICurrentVersionProvider currentVersionProvider)
         {
+            if (currentVersionProvider == null) throw new ArgumentNullException(nameof(currentVersionProvider));
             _workFlowProviderFactory = workFlowProviderFactory;
             _messageProvider = messageProvider;
+            _currentVersionProvider = currentVersionProvider;
             //FlowProvider = _workFlowProviderFactory.CreateWorkFlow();
             //FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
             StartCommand =new RelayCommand(async o=> { await FlowProvider.StartWorkFlow(); });
             CreateWorkflowCommand = new RelayCommand(CreateWorkflow);
-            RequiredVersion = "1.1.0.0";
-            InitialMayorVersion = "1";
-            InitialMinorVersion = "1";
-            InitialBuildVersion = "20";
+            var version=_currentVersionProvider.GetVersion();
+            RequiredVersion = version.Mayor+"."+ version.Minor + "." + version.Build + ".0";
+            InitialMayorVersion = version.Mayor.ToString();
+            InitialMinorVersion = version.Minor.ToString();
+            InitialBuildVersion = (version.Build+1).ToString();
         }
 
         private void CreateWorkflow(object obj)

@@ -21,18 +21,21 @@ namespace ScriptCreator
         private readonly int _minorVersion;
         private  int _build;
         private readonly int _revision;
+        private readonly ICurrentVersionWriter _currentVersionWriter;
         private string _output;
         private string _header;
         private string _footer;
 
         public StoreProceduresCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider,
-            string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild, int newRevision)
+            string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild, int newRevision,
+            [NotNull] ICurrentVersionWriter currentVersionWriter)
         {
             if (newMayorVersion < 1) throw new ArgumentException("newMayorVersion version should be >0");
             if (newMinorVersion < 0) throw new ArgumentException("newMinorVersion version should be >=0");
             if (newBuild < 0) throw new ArgumentException("newBuild should be >=0");
             if (newRevision < 0) throw new ArgumentException("newRevision should be >=0");
             if (scriptProvider == null) throw new ArgumentNullException(nameof(scriptProvider));
+            if (currentVersionWriter == null) throw new ArgumentNullException(nameof(currentVersionWriter));
 
             _databaseProjectPath = databaseProjectPath;
             _scriptProvider = scriptProvider;
@@ -41,6 +44,7 @@ namespace ScriptCreator
             _minorVersion = newMinorVersion;
             _build = newBuild;
             _revision = newRevision;
+            _currentVersionWriter = currentVersionWriter;
             LoadTemplatesFromDisk();
         }
 
@@ -129,6 +133,7 @@ namespace ScriptCreator
             Output += $"Total scripts processed: {progScripts.Count()}";
             string lastVersion = _mayorVersion + "." + _minorVersion.ToString("00") + "." + _build.ToString("000");
             File.WriteAllText(_databaseProjectPath + $"\\Updates\\Release {_mayorVersion}.{_minorVersion}\\" + "TV-"+ lastVersion+".000.sql", sb.ToString());
+            _currentVersionWriter.WriteCurrentVersion(new CurrentVersion() {Mayor = _mayorVersion, Minor = _minorVersion, Build = _build });
             Debug.WriteLine(sb);
             return new CommandResult(0,"ok");
         }

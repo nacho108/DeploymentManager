@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
+using Newtonsoft.Json;
 using ScriptCreator.Annotations;
 
 namespace ScriptCreator
 {
-    class CurrentVersionProvider : ICurrentVersionProvider
+    public class CurrentVersionProvider : ICurrentVersionProvider
     {
         private readonly string _databaseProjectPath;
 
@@ -15,7 +17,12 @@ namespace ScriptCreator
 
         public CurrentVersion GetVersion()
         {
-            return new CurrentVersion() {Mayor = 1, Minor = 1, Build = 25};
+            using (StreamReader file = File.OpenText(_databaseProjectPath+"\\Updates\\DBCurrentVersion.txt"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                CurrentVersion currentVersion = (CurrentVersion) serializer.Deserialize(file, typeof (CurrentVersion));
+                return  currentVersion;
+            }
         }
     }
 }
