@@ -38,7 +38,7 @@ namespace DeploymentFlow
             stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C " + _repositoryPath + " merge develop",null), "Merging locally develop->Release", 5));
             stepList.Add(new FlowStep(new ShellCommand("C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\MSBuild.exe",_solutionPath +" /p:Configuration=Release /verbosity:quiet", null), "Build project", 6));
             stepList.Add(new FlowStep(storeProceduresCreatorCommand,$"Create SQL deployment script ({requiredVersion}-{mayorVersion}.{minorVersion}.{build}.0)",7));
-            //stepList.Add(new FlowStep(new ShellCommand(_databaseProjectPath+"\\maintenance\\reinstall-database.bat", "", _databaseProjectPath+"\\maintenance"),"Deploying DB locally", 8));
+            stepList.Add(new FlowStep(new ShellCommand(_databaseProjectPath+"\\maintenance\\reinstall-database.bat", "", _databaseProjectPath+"\\maintenance"),"Deploying DB locally", 8));
             stepList.Add(new FlowStep(new BackupSchemaScriptsCommand(_databaseProjectPath,currentVersionProvider),"Backup current schema scripts", 9));
             stepList.Add(new FlowStep(new ShellCommand("cmd.exe","/c gulp prod-site", _repositoryPath), "Minimize project", 11));
 
