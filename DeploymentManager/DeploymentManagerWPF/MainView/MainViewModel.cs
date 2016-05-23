@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Contracts;
 using DeploymentFlow;
 using DeploymentFlow.Interfaces;
@@ -47,16 +48,33 @@ namespace DeploymentManager.MainView
             _workFlowProviderFactory = workFlowProviderFactory;
             _messageProvider = messageProvider;
             _currentVersionProvider = currentVersionProvider;
-            //FlowProvider = _workFlowProviderFactory.CreateWorkFlow();
-            //FlowStepsVm = FlowProvider.AllSteps.Select(flowStep => new FlowStepVm(flowStep)).ToList();
-            StartCommand =new RelayCommand(async o=> { await FlowProvider.StartWorkFlow(); });
-            CreateWorkflowCommand = new RelayCommand(CreateWorkflow);
-            var version=_currentVersionProvider.GetVersion();
+            StartCommand =new RelayCommand(async o=> { await StartWorkflow(o); });
+            var version = new CurrentVersion
+            {
+                Mayor = 1,
+                Minor = 1,
+                Build = 100
+            };
+            try
+            {
+                version = _currentVersionProvider.GetVersion();
+            }
+            catch (Exception)
+            {
+                messageProvider.ShowMessage("The version could not be read from $DatabaseProject\\Updates\\DBCurrentVersion.txt.\n Taking arbitrary default values.");
+            }
             RequiredVersion = version.Mayor+"."+ version.Minor + "." + version.Build + ".0";
             InitialMayorVersion = version.Mayor.ToString();
             InitialMinorVersion = version.Minor.ToString();
             InitialBuildVersion = (version.Build+1).ToString();
         }
+
+        private async Task StartWorkflow(object obj)
+        {
+            CreateWorkflow(null);
+            await FlowProvider.StartWorkFlow();
+        }
+
 
         private void CreateWorkflow(object obj)
         {
@@ -128,7 +146,7 @@ namespace DeploymentManager.MainView
         }
 
         public RelayCommand StartCommand { get; }
-        public RelayCommand CreateWorkflowCommand { get; }
+        //public RelayCommand CreateWorkflowCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

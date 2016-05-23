@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackupSchemaScriptsCommand.cs" />
     <Compile Include="Commands\AskCommand.cs" />
     <Compile Include="Commands\ShellCommand.cs" />
     <Compile Include="FlowStep.cs" />

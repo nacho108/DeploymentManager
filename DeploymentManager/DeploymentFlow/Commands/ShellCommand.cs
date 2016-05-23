@@ -14,13 +14,15 @@ namespace DeploymentFlow.Commands
     {
         private readonly string _filename;
         private readonly string _arguments;
+        private readonly string _workingDirectory;
 
-        public ShellCommand([NotNull] string filename, [NotNull] string arguments)
+        public ShellCommand([NotNull] string filename, [NotNull] string arguments, string workingDirectory)
         {
             if (filename == null) throw new ArgumentNullException(nameof(filename));
             if (arguments == null) throw new ArgumentNullException(nameof(arguments));
             _filename = filename;
             _arguments = arguments;
+            _workingDirectory = workingDirectory;
         }
 
         private string _output;
@@ -44,6 +46,10 @@ namespace DeploymentFlow.Commands
                 using (var process = new Process())
                 {
                     process.StartInfo.UseShellExecute = false;
+                    if (_workingDirectory != null)
+                    {
+                        process.StartInfo.WorkingDirectory = _workingDirectory;
+                    }
                     process.StartInfo.CreateNoWindow = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.RedirectStandardOutput = true;

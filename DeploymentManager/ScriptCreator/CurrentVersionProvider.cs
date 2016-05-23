@@ -17,6 +17,7 @@ namespace ScriptCreator
 
         public CurrentVersion GetVersion()
         {
+
             using (StreamReader file = File.OpenText(_databaseProjectPath+"\\Updates\\DBCurrentVersion.txt"))
             {
                 JsonSerializer serializer = new JsonSerializer();

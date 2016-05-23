@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ArrayOfArrayOfString>
+    <ArrayOfString>
+      <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\Commands\ShellCommand.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\projects\deploymentmanager\deploymentmanager\scriptcreator\currentversionprovider.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\projects\deploymentmanager\deploymentmanager\deploymentmanagerwpf\mainview\mainviewmodel.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\projects\deploymentmanager\deploymentmanager\deploymentflow\workflowproviderfactory.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>c:\projects\deploymentmanager\deploymentmanager\scriptcreator\storeprocedurescreatorcommand.cs</string>
+    </ArrayOfString>
+  </ArrayOfArrayOfString>
+</ArrayOfArrayOfArrayOfString>
