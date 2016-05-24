@@ -2,22 +2,7 @@
 <ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ArrayOfArrayOfString>
     <ArrayOfString>
-      <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\WorkFlowProviderFactory.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>c:\projects\deploymentmanager\deploymentmanager\deploymentflow\commands\shellcommand.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Projects\deploymentmanager\DeploymentManager\ScriptCreator\ScriptProvider.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Projects\deploymentmanager\DeploymentManager\ScriptCreator.Tests\ScriptCreatorTests.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\TestRunnerCommand.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\BackupSchemaScriptsCommand.cs</string>
+      <string>C:\Projects\deploymentmanager\DeploymentManager\ScriptCreator.Tests\CurrentVersionWriterTests.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
