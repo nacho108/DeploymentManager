@@ -4,5 +4,8 @@
     <ArrayOfString>
       <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\WorkFlowProviderFactory.cs</string>
     </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Projects\deploymentmanager\DeploymentManager\ScriptGenerator\Program.cs</string>
+    </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
