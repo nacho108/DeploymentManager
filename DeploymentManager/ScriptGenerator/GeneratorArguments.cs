@@ -5,7 +5,7 @@ namespace ScriptGenerator
 {
     public class GeneratorArguments
     {
-        [Option("directory", Required = true, HelpText = "Database project path")]
+        [Option("dbproject", Required = true, HelpText = "Database project path")]
         public string DatabaProjectFolder { get; set; }
 
         [Option("outputFolder", HelpText = "Output folder for the resulting script")]
@@ -28,6 +28,16 @@ namespace ScriptGenerator
         {
             return HelpText.AutoBuild(this,
                 (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+        }
+
+        public override string ToString()
+        {
+            return $"DatabaProjectFolder:{DatabaProjectFolder}\n" +
+                   $"outputFolder:{OutputFolder}\n" +
+                   $"requiredVersion:{RequiredVersion}\n" +
+                   $"mayorVersion:{MayorVersion}\n" +
+                   $"minorVersion:{MinorVersion}\n" +
+                   $"build:{Build}\n";
         }
     }
 }
