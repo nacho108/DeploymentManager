@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCreator", "ScriptCrea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCreator.Tests", "ScriptCreator.Tests\ScriptCreator.Tests.csproj", "{CA0E957F-2ABD-4A7A-BB2F-B2F5E226C629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptGenerator", "ScriptGenerator\ScriptGenerator.csproj", "{C5207B1F-0D56-4562-B5B8-EB9338FA9420}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptGeneratorUtility", "ScriptGenerator\ScriptGeneratorUtility.csproj", "{C5207B1F-0D56-4562-B5B8-EB9338FA9420}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
