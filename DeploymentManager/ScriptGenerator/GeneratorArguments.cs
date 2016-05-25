@@ -8,7 +8,7 @@ namespace ScriptGenerator
         [Option("dbproject", Required = true, HelpText = "Database project path")]
         public string DatabaProjectFolder { get; set; }
 
-        [Option("outputFolder", HelpText = "Output folder for the resulting script")]
+        [Option("outputFolder", Required = true,HelpText = "Output folder for the resulting script")]
         public string OutputFolder { get; set; }
 
         [Option("requiredVersion", HelpText = "Required version in format M.m.b.0")]

@@ -33,6 +33,7 @@ namespace ScriptGenerator
             }
             else
             {
+                Console.WriteLine("Using required version and current version from file");
                 var currentVersionProvider = new CurrentVersionProvider(generatorArguments.DatabaProjectFolder).GetVersion();
                 mayorVersion = currentVersionProvider.Mayor;
                 minorVersion = currentVersionProvider.Minor;

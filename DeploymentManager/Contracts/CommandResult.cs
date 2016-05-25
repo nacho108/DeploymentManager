@@ -10,5 +10,10 @@
 
         public int ExitCode { get; }
         public string Output { get; }
+
+        public override string ToString()
+        {
+            return ExitCode+"-"+ Output;
+        }
     }
 }
