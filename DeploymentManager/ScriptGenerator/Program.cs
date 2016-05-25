@@ -11,22 +11,22 @@ namespace ScriptGenerator
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("*********************");
             var generatorArguments = new GeneratorArguments();
 
-            foreach (var s in args)
-            {
-                if (s == "?" || s == "--?" || s == "-?")
-                {
-                    //ShowHelp();      
-                    return;
-                }
-            }
+            //foreach (var s in args)
+            //{
+            //    if (s == "?" || s == "--?" || s == "-?")
+            //    {
+            //        //ShowHelp();      
+            //        return;
+            //    }
+            //}
 
             if (!Parser.Default.ParseArguments(args, generatorArguments))
             {
                 return;
             }
-
         }
     }
 }
