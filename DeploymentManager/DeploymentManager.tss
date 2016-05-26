@@ -8,13 +8,10 @@
       <string>c:\projects\deploymentmanager\deploymentmanager\scriptcreator\storeprocedurescreatorcommand.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>c:\projects\deploymentmanager\deploymentmanager\deploymentflow\workflowproviderfactory.cs</string>
+      <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\WorkFlowProviderFactory.cs</string>
     </ArrayOfString>
     <ArrayOfString>
-      <string>c:\projects\deploymentmanager\deploymentmanager\scriptcreator.tests\scriptcreatortests.cs</string>
-    </ArrayOfString>
-    <ArrayOfString>
-      <string>C:\Projects\deploymentmanager\DeploymentManager\DeploymentFlow\BackupSchemaScriptsCommand.cs</string>
+      <string>c:\projects\deploymentmanager\deploymentmanager\deploymentflow\backupschemascriptscommand.cs</string>
     </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>
