@@ -29,7 +29,7 @@ namespace DeploymentFlow
         {
             var currentVersionWriter=new CurrentVersionWriter(_databaseProjectPath);
             var currentVersionProvider=new CurrentVersionProvider(_databaseProjectPath);
-            var storeProceduresCreatorCommand=new StoreProceduresCreatorCommand(_databaseProjectPath, new ScriptProvider(), requiredVersion, mayorVersion, minorVersion, build, 0, currentVersionWriter);
+            var storeProceduresCreatorCommand=new StoreProceduresCreatorCommand(_databaseProjectPath, null,OutputFolderSelect.Auto, new ScriptProvider(), requiredVersion, mayorVersion, minorVersion, build, 0, currentVersionWriter);
             var stepList = new List<FlowStep>();
             //stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C " + _repositoryPath+ " checkout develop",null), "Checkout local Develop branch", 1));
             //stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C " + _repositoryPath + " pull --progress origin",null), "Pull remote develop", 2));
@@ -41,7 +41,7 @@ namespace DeploymentFlow
             stepList.Add(new FlowStep(new ShellCommand(_databaseProjectPath+"\\maintenance\\reinstall-database.bat", "", _databaseProjectPath+"\\maintenance"),"Deploying DB locally", 8));
             //stepList.Add(new FlowStep(new ShellCommand("C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow\\vstest.console.exe", "Deloitte.TrueView.Entities.Tests.dll", "C:\\Projects\\TrueView\\Deloitte.TrueView.Entities.Tests\\bin\\Debug"), "Unit testing Testing", 8));
             stepList.Add(new FlowStep(new TestRunnerCommand(_repositoryPath + "\\Tests"), "Run unit tests", 9));
-            //stepList.Add(new FlowStep(new BackupSchemaScriptsCommand(_databaseProjectPath,currentVersionProvider),"Backup current schema scripts", 10));
+            stepList.Add(new FlowStep(new BackupSchemaScriptsCommand(_databaseProjectPath,currentVersionProvider),"Backup current schema scripts", 10));
             //stepList.Add(new FlowStep(new ShellCommand("cmd.exe","/c gulp prod-site", _repositoryPath), "Gulp Javascript minification", 11));
 
             //stepList.Add(new FlowStep(new ShellCommand("git.exe", "-C " + _repositoryPath + " add .",null), "Adding script to repo", 9));

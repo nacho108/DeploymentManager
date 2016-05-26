@@ -12,9 +12,16 @@ using ScriptCreator.Annotations;
 
 namespace ScriptCreator
 {
+    public enum OutputFolderSelect
+    {
+        Auto,
+        Specified
+    }
     public class StoreProceduresCreatorCommand:ICommand
     {
         private readonly string _databaseProjectPath;
+        private string _outputFolder;
+        private readonly OutputFolderSelect _outputFolderSelect;
         readonly IScriptProvider _scriptProvider;
         private  string _requiredVersion;
         private readonly int _mayorVersion;
@@ -26,10 +33,11 @@ namespace ScriptCreator
         private string _header;
         private string _footer;
 
-        public StoreProceduresCreatorCommand(string databaseProjectPath, [NotNull] IScriptProvider scriptProvider,
-            string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild, int newRevision,
-            [NotNull] ICurrentVersionWriter currentVersionWriter)
+        public StoreProceduresCreatorCommand([NotNull] string databaseProjectPath, string outputFolder, OutputFolderSelect outputFolderSelect,
+            [NotNull] IScriptProvider scriptProvider,string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild,
+            int newRevision,[NotNull] ICurrentVersionWriter currentVersionWriter)
         {
+            if (databaseProjectPath == null) throw new ArgumentNullException(nameof(databaseProjectPath));
             if (newMayorVersion < 1) throw new ArgumentException("newMayorVersion version should be >0");
             if (newMinorVersion < 0) throw new ArgumentException("newMinorVersion version should be >=0");
             if (newBuild < 0) throw new ArgumentException("newBuild should be >=0");
@@ -38,6 +46,8 @@ namespace ScriptCreator
             if (currentVersionWriter == null) throw new ArgumentNullException(nameof(currentVersionWriter));
 
             _databaseProjectPath = databaseProjectPath;
+            _outputFolder = outputFolder;
+            _outputFolderSelect = outputFolderSelect;
             _scriptProvider = scriptProvider;
             _requiredVersion = requiredVersion;
             _mayorVersion = newMayorVersion;
@@ -132,7 +142,12 @@ namespace ScriptCreator
             sb.Append(_footer);
             Output += $"Total scripts processed: {progScripts.Count()}";
             string lastVersion = _mayorVersion + "." + _minorVersion.ToString("00") + "." + _build.ToString("000");
-            File.WriteAllText(_databaseProjectPath + $"\\Updates\\Release {_mayorVersion}.{_minorVersion}\\" + "TV-"+ lastVersion+".000.sql", sb.ToString());
+            if (_outputFolderSelect==OutputFolderSelect.Auto)
+            {
+                _outputFolder = $"\\Updates\\Release {_mayorVersion}.{_minorVersion}\\";
+            }
+
+            File.WriteAllText(_databaseProjectPath + _outputFolder + "TV-"+ lastVersion+".000.sql", sb.ToString());
             _currentVersionWriter.WriteCurrentVersion(new CurrentVersion() {Mayor = _mayorVersion, Minor = _minorVersion, Build = _build });
             Debug.WriteLine(sb);
             return new CommandResult(0,"ok");

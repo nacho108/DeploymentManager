@@ -42,8 +42,9 @@ namespace ScriptGenerator
 
             var currentVersionWriter = new NullCurrentVersionWriter();
 
-            var storeProceduresCreatorCommand = new StoreProceduresCreatorCommand(generatorArguments.DatabaProjectFolder,
-                new ScriptProvider(), generatorArguments.RequiredVersion, mayorVersion, minorVersion, build, 0, currentVersionWriter);
+            var storeProceduresCreatorCommand = new StoreProceduresCreatorCommand(generatorArguments.DatabaProjectFolder, generatorArguments.OutputFolder, 
+                OutputFolderSelect.Auto, new ScriptProvider(), 
+                generatorArguments.RequiredVersion, mayorVersion, minorVersion, build, 0, currentVersionWriter);
 
             var result = storeProceduresCreatorCommand.Execute();
             Console.WriteLine(result);
