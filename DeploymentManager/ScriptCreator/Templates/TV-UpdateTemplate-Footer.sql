@@ -7,9 +7,8 @@
 		EXEC [security].[pub_SystemSchemaAddLogInfo] @scriptName, @LogMsg;
 	END TRY
 	BEGIN CATCH
-		/*
-		 * Rollback the transactions
-		 */
+		/* Rollback the transactions */
+
 		SET @LogMsg = ERROR_MESSAGE();
 
 		IF (@@TRANCOUNT > 0)
@@ -32,9 +31,8 @@ ELSE BEGIN
 	END
 END
 
-/*
- * Make sure there is no open transactions
- */
+/* Make sure there is no open transactions  */
+
 IF @@TRANCOUNT <> 0
 BEGIN
 	PRINT '***** CAUTION: '+ CAST(@@TRANCOUNT as nvarchar(10))+ ' TRANSACTION(s) REMAIN OPEN! *****' 

@@ -102,7 +102,7 @@ namespace ScriptCreator
                     sb.Append(header);
                     sb.Append(scriptContainer.ScriptBody);
                     sb.Append(_footer);
-                    sb.Append("\n/* *************************************************************************** /* \n\n");
+                    sb.Append("\n/* *************************************************************************** */ \n\n");
                     _requiredVersion = _mayorVersion + "." + _minorVersion + "." + _build + ".0";
                     _build++;
                 }
@@ -147,7 +147,7 @@ namespace ScriptCreator
                 _outputFolder = $"\\Updates\\Release {_mayorVersion}.{_minorVersion}\\";
             }
 
-            File.WriteAllText(_databaseProjectPath + _outputFolder + "TV-"+ lastVersion+".000.sql", sb.ToString());
+            File.WriteAllText(_outputFolder + "\\TV-"+ lastVersion+".000.sql", sb.ToString());
             _currentVersionWriter.WriteCurrentVersion(new CurrentVersion() {Mayor = _mayorVersion, Minor = _minorVersion, Build = _build });
             Debug.WriteLine(sb);
             return new CommandResult(0,"ok");

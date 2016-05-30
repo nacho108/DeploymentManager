@@ -17,13 +17,11 @@ namespace ScriptGenerator
 
             if (!Parser.Default.ParseArguments(args, generatorArguments))
             {
-                Console.WriteLine("Something failed !");
                 return;
             }
-            Console.WriteLine("Running scriptgenerator with the following arguments:");
-            Console.WriteLine(generatorArguments);
 
-            int mayorVersion, minorVersion, build;
+            int mayorVersion=0, minorVersion=0, build=0;
+            string requiredVersion="";
             if (generatorArguments.MinorVersion != null || generatorArguments.MayorVersion != null ||
                 generatorArguments.Build != null || generatorArguments.RequiredVersion != null)
             {
@@ -37,17 +35,25 @@ namespace ScriptGenerator
                 var currentVersionProvider = new CurrentVersionProvider(generatorArguments.DatabaProjectFolder).GetVersion();
                 mayorVersion = currentVersionProvider.Mayor;
                 minorVersion = currentVersionProvider.Minor;
-                build = currentVersionProvider.Build;
+                build = currentVersionProvider.Build+1;
+                requiredVersion = mayorVersion + "." + minorVersion + "." + currentVersionProvider.Build + ".0";
             }
+            Console.WriteLine("\nParameters from command line:");
+            Console.WriteLine(generatorArguments);
+
+            Console.WriteLine("\nCurrent parameters:");
+            Console.WriteLine($"RequiredVersion: {requiredVersion}");
+            Console.WriteLine($"MayorVersion: {mayorVersion}");
+            Console.WriteLine($"MinorVersion: {minorVersion}");
+            Console.WriteLine($"Build: {build}");
 
             var currentVersionWriter = new NullCurrentVersionWriter();
-
-            var storeProceduresCreatorCommand = new StoreProceduresCreatorCommand(generatorArguments.DatabaProjectFolder, generatorArguments.OutputFolder, 
-                OutputFolderSelect.Auto, new ScriptProvider(), 
-                generatorArguments.RequiredVersion, mayorVersion, minorVersion, build, 0, currentVersionWriter);
+            var storeProceduresCreatorCommand = new StoreProceduresCreatorCommand(generatorArguments.DatabaProjectFolder, 
+                generatorArguments.OutputFolder, OutputFolderSelect.Specified, new ScriptProvider(), 
+                requiredVersion, mayorVersion, minorVersion, build, 0, currentVersionWriter);
 
             var result = storeProceduresCreatorCommand.Execute();
-            Console.WriteLine(result);
+            Console.WriteLine(result.Result);
         }
     }
 }
