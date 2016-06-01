@@ -9,7 +9,7 @@
 	BEGIN CATCH
 		/* Rollback the transactions */
 
-		SET @LogMsg = ERROR_MESSAGE();
+		SET @LogMsg = ERROR_MESSAGE() + CHAR(13)+'Line:' + CONVERT(nvarchar, ERROR_LINE())+' ERROR_STATE:' + CONVERT(nvarchar, ERROR_STATE())+' ERROR_SEVERITY:' + CONVERT(nvarchar, ERROR_SEVERITY())+' ERROR_NUMBER:' + CONVERT(nvarchar, ERROR_NUMBER());
 
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK TRANSACTION
