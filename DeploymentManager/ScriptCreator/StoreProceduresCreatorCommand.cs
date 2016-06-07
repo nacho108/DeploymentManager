@@ -29,13 +29,15 @@ namespace ScriptCreator
         private  int _build;
         private readonly int _revision;
         private readonly ICurrentVersionWriter _currentVersionWriter;
+        private readonly int _finaBuild;
         private string _output;
         private string _header;
         private string _footer;
+        private int _finalBuild;
 
         public StoreProceduresCreatorCommand([NotNull] string databaseProjectPath, string outputFolder, OutputFolderSelect outputFolderSelect,
             [NotNull] IScriptProvider scriptProvider,string requiredVersion,int newMayorVersion, int newMinorVersion, int newBuild,
-            int newRevision,[NotNull] ICurrentVersionWriter currentVersionWriter)
+            int newRevision,[NotNull] ICurrentVersionWriter currentVersionWriter, ref int finaBuild)
         {
             if (databaseProjectPath == null) throw new ArgumentNullException(nameof(databaseProjectPath));
             if (newMayorVersion < 1) throw new ArgumentException("newMayorVersion version should be >0");
@@ -44,7 +46,7 @@ namespace ScriptCreator
             if (newRevision < 0) throw new ArgumentException("newRevision should be >=0");
             if (scriptProvider == null) throw new ArgumentNullException(nameof(scriptProvider));
             if (currentVersionWriter == null) throw new ArgumentNullException(nameof(currentVersionWriter));
-
+            _finalBuild = finaBuild;
             _databaseProjectPath = databaseProjectPath;
             _outputFolder = outputFolder;
             _outputFolderSelect = outputFolderSelect;
@@ -55,6 +57,7 @@ namespace ScriptCreator
             _build = newBuild;
             _revision = newRevision;
             _currentVersionWriter = currentVersionWriter;
+            _finaBuild = finaBuild;
             LoadTemplatesFromDisk();
         }
 
@@ -66,7 +69,7 @@ namespace ScriptCreator
             _footer = File.ReadAllText("Templates\\TV-UpdateTemplate-Footer.sql");
         }
 
-        private string GetHeaderWithVersion(string requiredVersion, int mayorVersion, int minorVersion, int build)
+        private string GetHeaderWithVersion()
         {
             string filledHeader= _header.Replace("{REQUIRED VERSION}", _requiredVersion);
             filledHeader = filledHeader.Replace("{NEW MAJOR VERSION}", _mayorVersion.ToString());
@@ -82,7 +85,7 @@ namespace ScriptCreator
             // Schema changes and data migration
             StringBuilder sb = new StringBuilder();
             Output += "Forming header...\n";
-            var header = GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build);
+            var header = GetHeaderWithVersion();
             Output += "Getting current schema change scripts...\n";
             var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\SchemaChangeScriptsCurrent", Depth.AllChilds);
             List<ScriptContainer> schemasScripts = schemaScripts.ToList();
@@ -98,7 +101,7 @@ namespace ScriptCreator
 
                 foreach (var scriptContainer in schemasScripts)
                 {
-                    header = GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build);
+                    header = GetHeaderWithVersion();
                     sb.Append(header);
                     sb.Append(scriptContainer.ScriptBody);
                     sb.Append(_footer);
@@ -134,7 +137,7 @@ namespace ScriptCreator
             Output += "Merging all scrits in one...\n";
             string totalScript =MergeAllScriptsTogether(progScripts);
             Output += "Adding header and footer...\n";
-            sb.Append(GetHeaderWithVersion(_requiredVersion, _mayorVersion, _minorVersion, _build));
+            sb.Append(GetHeaderWithVersion());
             sb.Append("\n--******* Delete all procedures/functions and custom types \n\n");
             sb.Append(deleteCurrent);
             sb.Append("\n--******* Re-deploy all procedures/functions and custom types \n\n");
@@ -149,6 +152,7 @@ namespace ScriptCreator
 
             File.WriteAllText(_outputFolder + "\\TV-"+ lastVersion+".000.sql", sb.ToString());
             _currentVersionWriter.WriteCurrentVersion(new CurrentVersion() {Mayor = _mayorVersion, Minor = _minorVersion, Build = _build });
+            _finalBuild = _build;
             Debug.WriteLine(sb);
             return new CommandResult(0,"ok");
         }

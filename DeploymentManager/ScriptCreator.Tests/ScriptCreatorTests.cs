@@ -16,8 +16,9 @@ namespace ScriptCreator.Tests
         public async Task ScriptCreatorSomething()
         {
             var mock=new Mock<ICurrentVersionWriter>();
+            int finalBuild = 0;
             var sc = new StoreProceduresCreatorCommand("C:\\Projects\\Testing\\Database", null,OutputFolderSelect.Auto, 
-                new ScriptProvider(),"1.0.0.0",5,6,7,0, mock.Object);
+                new ScriptProvider(),"1.0.0.0",5,6,7,0, mock.Object, ref finalBuild);
             var a=await sc.Execute();
             Debug.WriteLine(a.Output);
         }

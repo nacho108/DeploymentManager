@@ -7,7 +7,7 @@ GO
 SET NOCOUNT    ON;
 SET XACT_ABORT ON;
 SET QUOTED_IDENTIFIER ON;
-GO
+
 
 /*
  * Script Header.

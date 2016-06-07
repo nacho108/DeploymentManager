@@ -48,7 +48,7 @@ namespace DeploymentFlow
                 string backupFolder = _databaseProjectPath +$"\\SchemaChangeScriptsBackup\\{version.Mayor}.{version.Minor}.{version.Build}";
                 Directory.CreateDirectory(backupFolder);
                 Output = Output + "Moving files...\n";
-                string[] files = Directory.GetFiles(sourceFolder, "*.*");
+                string[] files = Directory.GetFiles(sourceFolder, "*.SQL");
                 foreach (string file in files)
                 {
                     FileInfo fileInfo = new FileInfo(file);
