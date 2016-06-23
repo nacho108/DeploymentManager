@@ -23,14 +23,17 @@ namespace ScriptCreator
                 int defaultOrder=100;
                 switch (scriptType)
                 {
-                    case ScriptType.CustomType:
+                    case ScriptType.View:
                         defaultOrder = 300;
                         break;
-                    case ScriptType.Function:
+                    case ScriptType.CustomType:
                         defaultOrder = 700;
                         break;
-                    case ScriptType.StoreProcedure:
+                    case ScriptType.Function:
                         defaultOrder = 1000;
+                        break;
+                    case ScriptType.StoreProcedure:
+                        defaultOrder = 1500;
                         break;
                 }
                 scl.Add(new ScriptContainer()

@@ -15,5 +15,6 @@ namespace ScriptCreator
         StoreProcedure,
         Function,
         CustomType,
+        View
     }
 }
