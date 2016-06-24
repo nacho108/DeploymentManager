@@ -88,7 +88,7 @@ namespace ScriptCreator
             var header = GetHeaderWithVersion();
             Output += "Getting current schema change scripts...\n";
             var schemaScripts = await _scriptProvider.GetScripts(_databaseProjectPath + "\\SchemaChangeScriptsCurrent", Depth.AllChilds);
-            List<ScriptContainer> schemasScripts = schemaScripts.ToList();
+            List<ScriptContainer> schemasScripts = schemaScripts.OrderBy(o => o.Name).ToList();
             if (schemasScripts.Count > 0)
             {
                 sb.Append("/*\n");
