@@ -16,6 +16,7 @@ namespace ScriptCreator
             string[] scriptList = {};
             var so = depth == Depth.OnlyParent ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories;
             await Task.Run(() => { scriptList= Directory.GetFiles(path, "*.sql", so); });
+            Array.Sort(scriptList);
             for (int i = 0; i < scriptList.Length; i++)
             {
                 var body = File.ReadAllText(scriptList[i]);
@@ -23,17 +24,17 @@ namespace ScriptCreator
                 int defaultOrder=100;
                 switch (scriptType)
                 {
-                    case ScriptType.View:
+                    case ScriptType.CustomType:
                         defaultOrder = 300;
                         break;
-                    case ScriptType.CustomType:
+                    case ScriptType.Function:
                         defaultOrder = 700;
                         break;
-                    case ScriptType.Function:
+                    case ScriptType.View:
                         defaultOrder = 1000;
                         break;
                     case ScriptType.StoreProcedure:
-                        defaultOrder = 1500;
+                        defaultOrder = 1200;
                         break;
                 }
                 scl.Add(new ScriptContainer()
@@ -65,10 +66,11 @@ namespace ScriptCreator
         {
             var indexFunction = scriptBody.IndexOf("CREATE FUNCTION", 0, StringComparison.OrdinalIgnoreCase);
             var indexType = scriptBody.IndexOf("CREATE TYPE", 0, StringComparison.OrdinalIgnoreCase);
+            var indexView = scriptBody.IndexOf("CREATE VIEW", 0, StringComparison.OrdinalIgnoreCase);
             if (indexFunction >= 0 ) return ScriptType.Function;
             if (indexType >= 0) return ScriptType.CustomType;
+            if (indexView >= 0) return ScriptType.View;
             return ScriptType.StoreProcedure;
         }
-
     }
 }
